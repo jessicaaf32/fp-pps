@@ -14,7 +14,7 @@ class Kelas extends Model
         'nama',
         'keterangan',
         'gambar',
-    ];
+    ];//
 
 
     protected $table = 'kelas';
