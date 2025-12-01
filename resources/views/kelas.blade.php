@@ -43,7 +43,7 @@
               </div>
               <div class="text-center">
                 <div class="col-md-12 form-group mt-3 mt-md-0">
-                  <button class="btn btn-buy btn-info-outline" style="color: #008080;">  Masuk ke materi</a></button>
+                  <button class="btn btn-buy btn-info-outline" style="color: #008080;"><a href="/materi"> Masuk ke materi</a></button>
                 </div>
               </div>
             </div>

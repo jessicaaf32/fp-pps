@@ -11,6 +11,7 @@ use App\Models\Questions;
 use App\Models\Product;
 use App\Models\Kelas;
 use App\Models\Invoice;
+use App\Models\Materi;
 use Sessions;
 
 class ShopController extends Controller
@@ -32,9 +33,14 @@ class ShopController extends Controller
         return view('cart',['carts' => $carts]);
     }
     public function kelas(Request $request){
-        $product = Product::all();
         $kelas = Kelas::all();
         return view('kelas',['kelas' => $kelas]);
+        //return view('kelas');
+    }
+    public function materi(Request $request){
+        $kelas = Kelas::all();
+        $materi = materi::all();
+        return view('materi',['materi' => $materi], ['kelas' => $kelas]);
         //return view('kelas');
     }
     public function forgot_password(){

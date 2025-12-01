@@ -1,6 +1,6 @@
 @extends('index')
-@section('title','Kelas')
-@section('Kelas','active')
+@section('title','Materi')
+@section('Materi','active')
 
 @section('content')
     
@@ -9,9 +9,10 @@
 
 <main id="main">
   <section id="faq" class="faq">
+    
     <div class="container" data-aos="fade-up">
       <div class="section-header">
-        <h2>Daftar Kelas</h2>
+        <h2>Materi Kelas</h2>
       </div>
       <div class="row gy-4">
         @foreach ($kelas as $class)
@@ -57,38 +58,63 @@
 
     </div>
   </section>
-      <section id="about" class="about">
+  
+  <section id="about" class="about">
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>Tentang kami</h2>
+          <h2>Materi Kelas</h2>
           <p>GROWID  sebuah website pembelajaran teknologi yang menjadi wadah bagi mahasiswa untuk belajar, berdiskusi, dan mengembangkan keterampilan digital secara mandiri. Pada pengembangan website ini, keberadaan fitur-fitur yang lengkap, mudah digunakan, dan dapat diakses secara gratis oleh seluruh pengguna menjadi hal yang sangat penting untuk menunjang proses belajar mengajar secara digital.</p>
         </div>
-
+        @foreach ($materi as $subject)
         <div class="row gy-4">
           <div class="col-lg-6">
-            <h3>Sekilas tentang website</h3>
-            <p>Website pembelajaran teknologi ini merupakan platform digital yang dirancang sebagai ruang belajar interaktif bagi mahasiswa. Melalui berbagai materi, fitur diskusi, dan latihan mandiri, pengguna dapat mengembangkan pemahaman serta keterampilan di bidang teknologi secara efektif.</p>
-            <p>Aplikasi ini menyediakan beragam sumber belajar seperti modul, video, forum, dan proyek praktik yang dapat diakses secara gratis. Dengan fitur yang sederhana namun lengkap, platform ini bertujuan mendukung proses pembelajaran digital agar lebih mudah, fleksibel, dan terarah bagi seluruh mahasiswa.</p>
+            <h3>{{$subject->judul_materi}}</h3>
+            <p>{{$subject->keterangan}}</p>
+            <!-- <p>Aplikasi ini menyediakan beragam sumber belajar seperti modul, video, forum, dan proyek praktik yang dapat diakses secara gratis. Dengan fitur yang sederhana namun lengkap, platform ini bertujuan mendukung proses pembelajaran digital agar lebih mudah, fleksibel, dan terarah bagi seluruh mahasiswa.</p> -->
           </div>
           <div class="col-lg-6">
             <div class="content ps-0 ps-lg-5">
-              <ul>
+              <!-- <ul>
                 <li><i class="bi bi-check-circle-fill"></i> Sekilas Tentang Website.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Materi Pembelajaran.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Kuis Pembelajaran.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Diskusi Komunitas.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Webinar.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Produk Penunjang Pembelajaran.</li>
-              </ul>
+              </ul> -->
+              @php
+                $url = $subject->link;
+                // Default ID kosong
+                $videoId = null;
+                // 1. Format youtu.be/xxxxxxxx
+                if (preg_match('/youtu\.be\/([^\?]+)/', $url, $m)) {
+                    $videoId = $m[1];
+                }
+                // 2. Format youtube.com/watch?v=xxxxxxxx
+                elseif (preg_match('/v=([^\&]+)/', $url, $m)) {
+                    $videoId = $m[1];
+                }
+                // 3. Format youtube.com/shorts/xxxxxxxx
+                elseif (preg_match('/shorts\/([^\?]+)/', $url, $m)) {
+                    $videoId = $m[1];
+                }
+                // Thumbnail otomatis
+                $thumbnail = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
+                // Link embed untuk glightbox
+                $embed = "https://www.youtube.com/embed/$videoId";
+              @endphp
               <div class="position-relative mt-4">
-                <img src="{{asset('/img/materi1.jpg')}}" class="img-fluid rounded-4" alt="">
-                <a href="https://youtu.be/qIBlIH7pI9c?si=rPcK9yGCHBPc3a2q" class="glightbox play-btn"></a>
+                  <!-- Thumbnail YouTube otomatis -->
+                  <img src="{{ $thumbnail }}" class="img-fluid rounded-4" alt="">
+                  <!-- Play button dengan embed YouTube -->
+                  <a href="{{ $embed }}" class="glightbox play-btn"></a>
               </div>
+
             </div>
           </div>
         </div>
-
+        @endforeach
       </div>
     </section><!-- End About Us Section -->
 </main>
