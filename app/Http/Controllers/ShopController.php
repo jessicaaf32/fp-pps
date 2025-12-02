@@ -37,12 +37,22 @@ class ShopController extends Controller
         return view('kelas',['kelas' => $kelas]);
         //return view('kelas');
     }
-    public function materi(Request $request){
-        $kelas = Kelas::all();
-        $materi = materi::all();
-        return view('materi',['materi' => $materi], ['kelas' => $kelas]);
-        //return view('kelas');
+    // public function materi(Request $request){
+    //     $kelas = Kelas::all();
+    //     $materi = materi::all();
+    //     return view('materi',['materi' => $materi], ['kelas' => $kelas]);
+    //     //return view('kelas');
+    // }
+    public function materi($id){
+        // Ambil detail kelas
+        $kelas = Kelas::findOrFail($id);
+        // Ambil semua materi yang id_kelas = id kelas tersebut
+        $materi = Materi::where('id_kelas', $id)->get();
+
+        return view('materi', compact('kelas', 'materi'));
     }
+
+
     public function forgot_password(){
         return view('forgot_password');
     }

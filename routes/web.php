@@ -35,7 +35,9 @@ Route::post('/add_to_cart',[ShopController::class, 'add_to_cart'])->middleware('
 Route::get('/clear',[ShopController::class, 'clear']);
 Route::post('/invoice',[ShopController::class, 'simpaninvoice']);
 Route::post('tampilinvoice',[ShopController::class, 'tampilinvoice']);
-Route::get('/materi',[ShopController::class, 'materi'])->middleware('auth');
+//Route::get('/materi',[ShopController::class, 'materi'])->middleware('auth');
+Route::get('/materi/{id}', [ShopController::class, 'materi']);
+
 
 
 Route::delete('/product/{product}', [AdminController::class,'destroy'])->name('product.destroy');
