@@ -24,7 +24,8 @@
                   data-gallery="portfolio-gallery-app" 
                   class="glightbox">
                   <img src="{{ asset('/img/kelas/'.$class->gambar) }}" 
-                      class="img-fluid" alt="">
+                      class="img-fluid w-100"
+     style="height: 250px; object-fit: cover; border-radius: 10px;" alt="">
               </a>
 
               <h3 class="accordion-header">

@@ -50,10 +50,10 @@
         <ul>
           <li><a href="/beranda" class="nav-link">Beranda</a></li>
           <li><a href="#about">Tentang</a></li>
-          <li><a href="/kelas" class="nav-link">Kelas</a></li>
-          <li><a href="#">Kuis</a></li>
-          <li><a href="#" class="nav-link">Diskusi</a></li>
-          <li><a href="#" class="nav-link">Webinar</a></li>
+          <li><a href="/kelas" class="nav-link @yield('Kelas')">Kelas</a></li>
+          <li><a href="#" class="nav-link @yield('Kuis')">Kuis</a></li>
+          <li><a href="/diskusi" class="nav-link @yield('Diskusi')">Diskusi</a></li>
+          <li><a href="/webinar" class="nav-link @yield('Webinar')">Webinar</a></li>
           <li><a href="#portfolio">Penunjang Pembelajaran</a></li>
           <li><a href="#contact">Kontak</a></li>
           <li>

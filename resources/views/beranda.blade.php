@@ -163,9 +163,9 @@
             @foreach ($product as $products)
               <div class="col-xl-4 col-md-6 portfolio-item filter-{{$products->category}}">
                 <div class="portfolio-wrap">
-                  <a href="{{ asset('/img/product/'.$products->gambar) }}" data-gallery="portfolio-gallery-app" class="glightbox"><img src="{{ asset('/img/product/'.$products->gambar) }}" class="img-fluid" alt=""></a>
-                  <div class="portfolio-info">
-                    
+                  <a href="{{ asset('/img/product/'.$products->gambar) }}" data-gallery="portfolio-gallery-app" class="glightbox"><img src="{{ asset('/img/product/'.$products->gambar) }}" class="img-fluid w-100"
+     style="height: 250px; object-fit: cover; border-radius: 10px;" alt=""></a>
+                  <div class="portfolio-info">              
                     <h4><a href="portfolio-details.html" title="More Details">{{ $products->product }}</a></h4>
                     <p>{{ $products->ket1 }}</p>
                     <p>{{ $products->height }}</p>

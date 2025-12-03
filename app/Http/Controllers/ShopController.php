@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\Kelas;
 use App\Models\Invoice;
 use App\Models\Materi;
+use App\Models\Webinar;
 use Sessions;
 
 class ShopController extends Controller
@@ -37,12 +38,6 @@ class ShopController extends Controller
         return view('kelas',['kelas' => $kelas]);
         //return view('kelas');
     }
-    // public function materi(Request $request){
-    //     $kelas = Kelas::all();
-    //     $materi = materi::all();
-    //     return view('materi',['materi' => $materi], ['kelas' => $kelas]);
-    //     //return view('kelas');
-    // }
     public function materi($id){
         // Ambil detail kelas
         $kelas = Kelas::findOrFail($id);
@@ -51,7 +46,22 @@ class ShopController extends Controller
 
         return view('materi', compact('kelas', 'materi'));
     }
-
+    public function webinar(Request $request){
+        $webinar = Webinar::all();
+        return view('webinar',['webinar' => $webinar]);
+    }
+    public function webinar_next($id){
+        // $webinar = Webinar::findOrFail($id);
+        // return view('webinar_next', compact('webinar'));
+        $webinar = Webinar::findOrFail($id);
+        // Ambil semua materi yang id_kelas = id kelas tersebut
+        $webinar2 = Webinar::where('id', $id)->get();
+        return view('webinar_next', compact('webinar', 'webinar2'));
+    }
+    public function diskusi(Request $request){
+        $webinar = Webinar::all();
+        return view('diskusi',['webinar' => $webinar]);
+    }
 
     public function forgot_password(){
         return view('forgot_password');

@@ -1,15 +1,14 @@
 @extends('index')
 @section('title','Materi')
-@section('Materi','active')
+@section('Kelas','active')
 
 @section('content')
     
 
   <!-- End Hero Section -->
 
-<main id="main">
-  
-  <section id="about" class="about">
+<main id="main"> 
+  <section id="faq" class="about">
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
@@ -25,14 +24,6 @@
           </div>
           <div class="col-lg-6">
             <div class="content ps-0 ps-lg-5">
-              <!-- <ul>
-                <li><i class="bi bi-check-circle-fill"></i> Sekilas Tentang Website.</li>
-                <li><i class="bi bi-check-circle-fill"></i> Materi Pembelajaran.</li>
-                <li><i class="bi bi-check-circle-fill"></i> Kuis Pembelajaran.</li>
-                <li><i class="bi bi-check-circle-fill"></i> Diskusi Komunitas.</li>
-                <li><i class="bi bi-check-circle-fill"></i> Webinar.</li>
-                <li><i class="bi bi-check-circle-fill"></i> Produk Penunjang Pembelajaran.</li>
-              </ul> -->
               @php
                 $url = $subject->link;
                 // Default ID kosong
@@ -66,7 +57,7 @@
         </div>
         @endforeach
       </div>
-    </section><!-- End About Us Section -->
+  </section><!-- End About Us Section -->
 </main>
 
       
