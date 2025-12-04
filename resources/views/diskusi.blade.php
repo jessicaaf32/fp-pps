@@ -1,136 +1,246 @@
 @extends('index')
-@section('title','Webinar')
-@section('Webinar','active')
+@section('title','Diskusi')
+@section('Diskusi','active')
 
 @section('content')
 
-{{-- ======================= HERO BRAINLY STYLE ======================= --}}
-<section class="py-5">
-    <div class="container" data-aos="fade-up">
+<main id="main">
 
-        <h1 class="fw-bold mb-3" style="font-size:32px;">
-            Daftar Webinar Terkini
-        </h1>
+    {{-- HERO SECTION --}}
+    <section class="py-5" style="background-color: #e6f4f1;">
+        <div class="container">
+            <h2 class="fw-bold mb-3 text-center" style="color:#006666;">Forum Diskusi</h2>
+            <p class="mb-4 text-center">Tempat bertanya, berdiskusi, dan memahami materi teknologi bersama komunitas.</p>
 
-        <p class="text-dark mb-4" style="font-size:18px;">
-            Temukan berbagai webinar nasional dan internasional yang dapat kamu ikuti secara gratis. 
-            Pilih kategori atau cari webinar yang kamu inginkan.
-        </p>
-
-        <!-- Search bar seperti Brainly (optional) -->
-        <form action="" method="GET" class="d-flex bg-white rounded-pill shadow-sm p-2"
-              style="max-width:420px;">
-            <input type="text" name="search" class="form-control border-0"
-                   placeholder="Cari webinar…">
-            <button class="btn btn-dark rounded-circle">
-                <i class="bi bi-search"></i>
-            </button>
-        </form>
-
-    </div>
-</section>
-{{-- ======================= END HERO SECTION ======================= --}}
-<div class="row gy-4">
-@foreach ($webinar as $w)
-    <div class="col-12">
-
-        <!-- CARD ala Brainly -->
-        <div class="p-3 rounded shadow-sm bg-white">
-
-            <!-- Header baris 1 -->
-            <div class="d-flex justify-content-between align-items-start">
-
-                <!-- Avatar -->
-                <div class="d-flex align-items-center gap-2">
-                    <img src="https://ui-avatars.com/api/?name=W&background=008080&color=fff"
-                         class="rounded-circle" width="40" height="40">
-                    <div>
-                        <span class="fw-bold" style="color:#008080;">
-                            {{ $w->title }}
-                        </span>
-                        <div class="text-muted small">
-                            {{ $w->date }} • {{ $w->time_start }} - {{ $w->time_end }}
-                        </div>
-                    </div>
+            {{-- SEARCH BAR --}}
+            <form action="/diskusi" method="GET">
+                <div class="input-group mb-3 shadow-sm">
+                    <input type="text" name="search" class="form-control form-control-lg" placeholder="Cari pertanyaan...">
+                    <button class="btn btn-lg" style="background:#008080; color:white;">Cari</button>
                 </div>
+            </form>
 
-                <!-- Badge Kategori -->
-                <span class="badge px-3 py-2"
-                      style="background:#ffe082; color:#6a4f00; font-size:13px;">
-                    {{ $w->webinar_type }}
+            <a href="/diskusi/ask" class="btn btn-lg" style="background:#008080; color:white;">+ Tanyakan Pertanyaanmu</a>
+        </div>
+    </section>
+
+    <section class="py-4">
+        <div class="container">
+
+            <div class="d-flex align-items-center mb-3">
+
+                <h5 class="fw-bold me-2 mb-0 mt-0" style="cursor:pointer; color:#008080;">
+                    Semua Hasil
+                </h5>
+
+                <span class="badge rounded-pill"
+                    style="background:#c8f3ec; color:#008080; font-size:15px; padding:8px 14px;">
+                    {{ $questions->count() }}
                 </span>
 
             </div>
 
-            <!-- Poster thumbnail -->
-            <div class="mt-3">
-                <img src="{{ asset('/img/webinar/'.$w->poster_url) }}"
-                     class="img-fluid rounded"
-                     style="width:100%; height:200px; object-fit:cover;">
-            </div>
-
-            <!-- Deskripsi -->
-            <p class="mt-3 mb-2 text-dark">
-                {{ Str::limit($w->description, 120) }}
-            </p>
-
-            <!-- Button -->
-            <div class="text-end">
-                <a href="/webinar_next/{{ $w->id }}"
-                   class="btn border-dark rounded-pill px-4 py-2"
-                   style="font-weight:600;">
-                   Ikuti Webinar
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-@endforeach
-</div>
+            <hr>
 
 
-<main id="main">
-    <section class="sections-bg">
-        <div class="container" data-aos="fade-up">
+            <hr>
 
-            <div class="section-header">
-                <h2>Forum Diskusi Materi</h2>
-                <p>Ajukan pertanyaanmu dan bantu menjawab pertanyaan dari pengguna lain.</p>
-            </div>
 
-            <!-- Tombol tambah pertanyaan -->
-            <div class="text-end mb-4">
-                <a href="/forum/create" class="btn btn-primary">Buat Pertanyaan</a>
-            </div>
+            <div class="accordion" id="forumAccordion">
 
-            <!-- List Pertanyaan -->
-            <div class="row gy-4">
-                @foreach ($webinar as $q)
-                <div class="col-12">
-                    <div class="p-4 bg-white shadow rounded-3">
-                        <h4>
-                            <a href="/forum/{{ $q->id }}">
-                                {{$q->title}}
-                            </a>
-                        </h4>
+                @if($questions->isEmpty())
+                    <p class="text-center text-muted">Tidak ada pertanyaan yang cocok.</p>
+                @endif
 
-                        <p class="text-muted mb-1">
-                            <i class="bi bi-person"></i> {{$q->title}}
-                            ·
-                            <i class="bi bi-clock"></i> {{$q->date}}
-                        </p>
+                @foreach ($questions as $q)
+                <div class="accordion-item mb-4 border-0">
 
-                        <span class="badge bg-info text-dark">{{$q->webinar_type}}</span>
-                        <span class="badge bg-secondary">{{ $q->subtitle }} Jawaban</span>
+                    {{-- CARD ATAS (Gaya Brainly) --}}
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed bg-white shadow-sm rounded"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#q-{{ $q->id }}"
+                            style="border-radius: 10px;">
+
+                            <div class="text-start">
+
+                                {{-- Header: Avatar + User + Waktu --}}
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="{{ asset('/img/team/'.$q->user->ava) }}"
+                                        class="rounded-circle me-3"
+                                        width="45" height="45">
+
+                                    <div>
+                                        <span class="badge"
+                                            style="background:#ffc107; color:#000;">
+                                            {{ $q->kelas->nama }}
+                                        </span>
+
+                                        <div class="small text-muted">
+                                            {{ $q->user->username }} · {{ $q->created_at->diffForHumans() }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Isi pertanyaan (limit 150) --}}
+                                <p class="mb-1 fw-semibold" style="font-size:18px;">
+                                    {{ Str::limit($q->questions_detail, 150) }}
+                                </p>
+
+                                {{-- Footer kecil --}}
+                                <small class="text-muted">
+                                    {{ $q->answers->count() }} jawaban • klik untuk lihat detail
+                                </small>
+
+
+                            </div>
+
+                        </button>
+                    </h2>
+                    {{-- DROPDOWN BAGIAN BAWAH --}}
+                    <div id="q-{{ $q->id }}" class="accordion-collapse collapse"
+                        data-bs-parent="#forumAccordion">
+
+                        <div class="accordion-body bg-white shadow-sm rounded mt-2">
+
+                            {{-- DAFTAR JAWABAN --}}
+                            <h6 class="fw-bold mb-3">Jawaban:</h6>
+
+                            <div class="answers-list" id="answers-{{ $q->id }}">
+                                @foreach ($q->answers as $a)
+                                    <div class="p-3 mb-3 bg-light rounded">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <img src="{{ asset('/img/team/'.$a->user->ava) }}"
+                                                class="rounded-circle me-2"
+                                                width="35" height="35">
+                                            <strong>{{ $a->user->username }}</strong>
+                                        </div>
+                                        {{ $a->answer_detail }} <br>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <small class="text-muted">
+                                                {{ $a->created_at->diffForHumans() }}
+                                            </small>
+                                            <button class="btn btn-sm like-answer"
+                                                data-id="{{ $a->id }}"
+                                                style="border:none; background:none; color:#ff6b6b;">
+                                                ❤️ <span id="a-like-{{ $a->id }}">{{ $a->likes }}</span>
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                @endforeach
+                            </div>
+
+                            <hr>
+
+                            {{-- FORM JAWAB --}}
+                            <form class="answer-form" data-id="{{ $q->id }}">
+                                @csrf
+                                <textarea class="form-control mb-2" name="answer_detail"
+                                        placeholder="Tulis jawaban kamu..." required></textarea>
+                                <button class="btn btn-info" style="background:#008080; color:white;">Kirim Jawaban</button>
+                            </form>
+
+                        </div>
                     </div>
+
+
                 </div>
                 @endforeach
+
             </div>
 
         </div>
     </section>
 </main>
 
+<script>
+    document.querySelectorAll('.answer-form').forEach(form => {
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // jangan submit biasa
+
+            let id = this.dataset.id;
+            let textarea = this.querySelector('textarea');
+            let answer = textarea.value;
+
+            fetch(`/diskusi/jawab/${id}`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ answer_detail: answer })
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                // Tambahkan jawaban baru ke list
+                let html = `
+                    <div class="p-3 mb-3 bg-light rounded">
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="${data.avatar}" width="35" height="35" class="rounded-circle me-2">
+                            <strong>${data.username}</strong>
+                        </div>
+                        ${data.answer}
+                        <br>
+                        <small class="text-muted">${data.time}</small>
+                    </div>
+                `;
+
+                document.querySelector(`#answers-${id}`).innerHTML += html;
+
+                // Kosongkan textarea setelah dikirim
+                textarea.value = "";
+
+            })
+            .catch(err => console.log(err));
+        });
+
+    });
+
+        // Like Question
+    document.querySelectorAll('.like-question').forEach(btn => {
+        btn.addEventListener('click', function() {
+            let id = this.dataset.id;
+
+            fetch(`/diskusi/like-question/${id}`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById(`q-like-${id}`).innerText = data.likes;
+            });
+        });
+    });
+
+    // Like Answer
+    document.querySelectorAll('.like-answer').forEach(btn => {
+        btn.addEventListener('click', function() {
+            let id = this.dataset.id;
+
+            fetch(`/diskusi/like-answer/${id}`, {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById(`a-like-${id}`).innerText = data.likes;
+            });
+        });
+    });
+
+</script>
 
 @endsection
+
+

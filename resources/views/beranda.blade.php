@@ -8,7 +8,7 @@
     <div class="container position-relative">
       <div class="row gy-5" data-aos="fade-in">
         <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
-          <h2>Welcome to <span>GROWID</span></h2>
+          <h2>Welcome to GROWID<span style="color:#ff6b00;">.</span></h2>
           <p>GROWID adalah sebuah website pembelajaran teknologi yang menyediakan fitur lengkap, mudah digunakan, dan gratis sebagai wadah bagi mahasiswa untuk belajar, berdiskusi, dan mengembangkan keterampilan digital secara mandiri.</p>
           <div class="d-flex justify-content-center justify-content-lg-start">
             <a href="#about" class="btn-get-started">Get Started</a>
@@ -28,7 +28,7 @@
           <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="icon-box">
               <div class="icon"><i class="bi bi-easel"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Terjangkau</a></h4>
+              <h4 class="title"><a href="" class="stretched-link">Mudah Dipahami</a></h4>
             </div>
           </div>
           <!--End Icon Box -->
@@ -52,7 +52,7 @@
           <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
             <div class="icon-box">
               <div class="icon"><i class="bi bi-command"></i></div>
-              <h4 class="title"><a href="" class="stretched-link">Terjamin</a></h4>
+              <h4 class="title"><a href="" class="stretched-link">Gratis</a></h4>
             </div>
           </div>
           <!--End Icon Box -->
@@ -85,7 +85,6 @@
           <div class="col-lg-6">
             <div class="content ps-0 ps-lg-5">
               <ul>
-                <li><i class="bi bi-check-circle-fill"></i> Sekilas Tentang Website.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Materi Pembelajaran.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Kuis Pembelajaran.</li>
                 <li><i class="bi bi-check-circle-fill"></i> Diskusi Komunitas.</li>
@@ -109,7 +108,7 @@
 
           <div class="col-lg-4">
             <div class="content px-xl-5">
-              <h3>Seputar<br><strong>GROWID</strong></h3>
+              <h3>Seputar<br><strong>GROWID<span style="color:#ff6b00;">.</span></strong></h3>
             </div>
           </div>
 
@@ -144,7 +143,7 @@
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>List Harga</h2>
+          <h2>Produk Penunjang Pembelajaran</h2>
         </div>
 
         <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order" data-aos="fade-up" data-aos-delay="100">
@@ -197,24 +196,7 @@
       </div>
     </section><!-- End Portfolio Section -->
     
-    <section id="clients" class="clients">
-      <div class="container" data-aos="zoom-out">
 
-        <div class="clients-slider swiper">
-          <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-1.png')}}" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-2.png')}}" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-3.png')}}" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-4.png')}}" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-5.png')}}" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-6.png')}}" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-7.png')}}" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="{{asset('/img/clients/client-8.png')}}" class="img-fluid" alt=""></div>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End Clients Section -->
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
       <div class="container" data-aos="fade-up">

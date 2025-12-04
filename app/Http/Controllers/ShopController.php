@@ -13,6 +13,8 @@ use App\Models\Kelas;
 use App\Models\Invoice;
 use App\Models\Materi;
 use App\Models\Webinar;
+use App\Models\ForumAnswers;
+use App\Models\ForumQuestions;
 use Sessions;
 
 class ShopController extends Controller
@@ -59,9 +61,80 @@ class ShopController extends Controller
         return view('webinar_next', compact('webinar', 'webinar2'));
     }
     public function diskusi(Request $request){
-        $webinar = Webinar::all();
-        return view('diskusi',['webinar' => $webinar]);
+        $search = $request->search; // ambil keyword pencarian
+        $questions = ForumQuestions::with(['user', 'kelas', 'answers'])
+            ->when($search, function($query) use ($search) {
+                $query->where('questions_detail', 'LIKE', "%$search%");
+            })
+            ->latest()
+            ->get();
+
+        return view('diskusi', compact('questions'));
     }
+
+    // public function likeQuestion($id){
+    //     $q = ForumQuestions::findOrFail($id);
+    //     $q->likes += 1;
+    //     $q->save();
+
+    //     return response()->json([
+    //         'likes' => $q->likes
+    //     ]);
+    // }
+
+    public function likeAnswer($id){
+        $a = ForumAnswers::findOrFail($id);
+        $a->likes += 1;
+        $a->save();
+
+        return response()->json([
+            'likes' => $a->likes
+        ]);
+    }
+
+
+    public function jawab(Request $request, $id){
+        $request->validate([
+            'answer_detail' => 'required',
+        ]);
+
+        $answer = ForumAnswers::create([
+            'question_id' => $id,
+            'user_id' => auth()->id(),
+            'answer_detail' => $request->answer_detail
+        ]);
+
+        // return JSON agar bisa ditampilkan tanpa reload
+        return response()->json([
+            'username' => $answer->user->username,
+            'avatar'   => asset('/img/team/'.$answer->user->ava),
+            'answer'   => $answer->answer_detail,
+            'time'     => $answer->created_at->diffForHumans()
+        ]);
+    }
+
+    public function askForm(){
+        $kelas = Kelas::all(); // supaya user bisa memilih kelas
+        return view('ask', compact('kelas'));
+    }
+
+    public function storeQuestion(Request $request){
+        $request->validate([
+            'kelas_id' => 'required',
+            'questions_detail' => 'required|min:5',
+        ]);
+
+        ForumQuestions::create([
+            'user_id' => auth()->id(),
+            'kelas_id' => $request->kelas_id,
+            'questions_detail' => $request->questions_detail,
+            'likes' => 0
+        ]);
+
+        return redirect('/diskusi')->with('success', 'Pertanyaan berhasil ditambahkan!');
+    }
+
+
 
     public function forgot_password(){
         return view('forgot_password');

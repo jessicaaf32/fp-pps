@@ -39,6 +39,13 @@ Route::get('/materi/{id}', [ShopController::class, 'materi']);
 Route::get('/webinar',[ShopController::class, 'webinar'])->middleware('auth');
 Route::get('/webinar_next/{id}', [ShopController::class, 'webinar_next']);
 Route::get('/diskusi',[ShopController::class, 'diskusi'])->middleware('auth');
+Route::get('/diskusi/ask', [ShopController::class, 'askForm'])->middleware('auth');
+Route::post('/diskusi/ask', [ShopController::class, 'storeQuestion'])->middleware('auth');
+//Route::post('/diskusi/like-question/{id}', [ShopController::class, 'likeQuestion']);
+Route::post('/diskusi/like-answer/{id}', [ShopController::class, 'likeAnswer']);
+
+
+
 
 
 

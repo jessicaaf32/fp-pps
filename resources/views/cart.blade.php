@@ -1,6 +1,6 @@
 @extends('index')
-@section('title','cart')
-@section('cart','active')
+@section('title','Cart')
+@section('Shop','active')
 
 @section('content')
     

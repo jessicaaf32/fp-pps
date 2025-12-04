@@ -41,7 +41,7 @@
   <header id="header" class="header d-flex align-items-center">
 
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-      <a href="/" class="logo d-flex align-items-center">
+      <a href="/beranda" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="asset/img/logo.png" alt=""> -->
         <h1>GROWID<span>.</span></h1>
@@ -54,7 +54,7 @@
           <li><a href="#" class="nav-link @yield('Kuis')">Kuis</a></li>
           <li><a href="/diskusi" class="nav-link @yield('Diskusi')">Diskusi</a></li>
           <li><a href="/webinar" class="nav-link @yield('Webinar')">Webinar</a></li>
-          <li><a href="#portfolio">Penunjang Pembelajaran</a></li>
+          <li><a href="#portfolio" class="nav-link @yield('Shop')">Penunjang Pembelajaran</a></li>
           <li><a href="#contact">Kontak</a></li>
           <li>
             <a href="/cart" class="nav-link @yield('cart')"><i class="fa fa-shopping-cart" style="font-size:15px"></i>
@@ -63,7 +63,7 @@
               </span>
             </a>
           </li>
-          <li class="dropdown"><a href="#"><i class="fa fa-user-circle"></i>&nbsp; Hai, {{Auth::user()->username}}!!</a>
+          <li class="dropdown"><a href="#"><i class="fa fa-user-circle"></i>&nbsp; Hai, {{Auth::user()->username}}</a>
             <ul>
               <li><a href="/logout">Keluar</a></li>
             </ul>
@@ -86,7 +86,7 @@
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-info">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span>GROWID</span>
+            <span>GROWID<span style="color:#ff6b00;">.</span></span>
           </a>
           <p>GROWID sebuah website pembelajaran teknologi yang menjadi wadah bagi mahasiswa untuk belajar, berdiskusi, dan mengembangkan keterampilan digital secara mandiri. Pada pengembangan website ini, keberadaan fitur-fitur yang lengkap, mudah digunakan, dan dapat diakses secara gratis oleh seluruh pengguna menjadi hal yang sangat penting untuk menunjang proses belajar mengajar secara digital.</p>
           <div class="social-links d-flex mt-4">
@@ -100,8 +100,8 @@
         <div class="col-lg-2 col-6 footer-links">
           <h4>Selengkapnya</h4>
           <ul>
-            <li><a href="#">Beranda</a></li>
-            <li><a href="#">Tentang kami</a></li>
+            <li><a href="/beranda">Beranda</a></li>
+            <li><a href="#about">Tentang kami</a></li>
             <li><a href="#">Layanan</a></li>
             <li><a href="#">Syarat Layanan</a></li>
             <li><a href="#">Kebijakan Pribadi</a></li>
