@@ -57,7 +57,7 @@
           <li><a href="#portfolio" class="nav-link @yield('Shop')">Penunjang Pembelajaran</a></li>
           <li><a href="#contact">Kontak</a></li>
           <li>
-            <a href="/cart" class="nav-link @yield('cart')"><i class="fa fa-shopping-cart" style="font-size:15px"></i>
+            <a href="/cart" class="nav-link @yield('Cart')"><i class="fa fa-shopping-cart" style="font-size:15px"></i>
               <span class="badge bg-info" style="font-size:7px; margin-left:-5px; margin-top:-5px;">
                 {{\Gloudemans\Shoppingcart\Facades\Cart::content()->count()}}
               </span>

@@ -1,106 +1,160 @@
 @extends('index')
 @section('title','Cart')
-@section('Shop','active')
+@section('Cart','active')
 
 @section('content')
-    
-<section>
-      <div class="container" data-aos="fade-up">
+<section class="py-5">
+  <div class="container" data-aos="fade-up">
 
-        <div class="section-header">
-          <h2>Pemesanan</h2>
+    <div class="section-header">
+      <h2>Keranjang Belanja</h2>
+    </div>
+
+    {{-- FORM UTAMA --}}
+    <form id="checkoutForm" action="/checkout" method="POST">
+      @csrf
+
+      <div class="row">
+        {{-- ======================== KOLOM KIRI ======================== --}}
+        <div class="col-md-8">
+
+          <div class="d-flex align-items-center mb-3">
+            <input type="checkbox" id="select-all"
+                   style="transform: scale(1.2); margin-right:10px;">
+            <label for="select-all" class="mb-0">Pilih Semua</label>
+          </div>
+
+          @forelse($carts as $cart)
+            @php $subtotal = $cart->qty * $cart->price; @endphp
+
+            <div class="card mb-3 shadow-sm p-3">
+              <div class="d-flex align-items-start">
+
+                {{-- Checkbox Item --}}
+                <input type="checkbox"
+                       class="item-checkbox align-self-center"
+                       style="transform: scale(1.3); margin-right:15px;"
+                       name="selected_items[]"
+                       value="{{ $cart->rowId }}"
+                       data-price="{{ $subtotal }}">
+
+                {{-- Gambar --}}
+                <div class="me-3"
+                     style="width:80px; height:80px; background:#f3f3f3; border-radius:10px; overflow:hidden;">
+                  @if($cart->options->gambar)
+                    <img src="{{ asset('/img/product/' . $cart->options->gambar) }}"
+                         style="width:100%; height:100%; object-fit:cover;">
+                  @else
+                    <img src="https://via.placeholder.com/80"
+                         style="width:100%; height:100%; object-fit:cover;">
+                  @endif
+                </div>
+
+                {{-- Detail --}}
+                <div class="flex-grow-1">
+                  <h5 class="mb-1" style="font-size:16px; font-weight:600;">
+                    {{ $cart->name }}
+                  </h5>
+                  <small class="text-muted">Qty: {{ $cart->qty }}</small>
+                </div>
+
+                {{-- Harga --}}
+                <div class="text-right" style="min-width:110px;">
+                  <div class="text-danger fw-bold">
+                    Rp {{ number_format($cart->price,0,',','.') }}
+                  </div>
+                  <small class="text-muted">
+                    Subtotal:<br>
+                    Rp {{ number_format($subtotal,0,',','.') }}
+                  </small>
+                </div>
+
+              </div>
+            </div>
+          @empty
+            <p>Keranjang masih kosong.</p>
+          @endforelse
+
+          <div class="d-flex justify-content-between mt-3 mb-4">
+            <a href="/clear" class="btn btn-outline-danger btn-sm">Clear Cart</a>
+            <a href="/beranda" class="btn btn-outline-primary btn-sm">Continue Shopping</a>
+          </div>
+
         </div>
-        <table class="table table-bordered table-striped table-hover bg-white">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody> 
-                <?php 
-                    $total=0;
-                ?>
-                @foreach($carts as $cart)
-                <?php 
-                    $subtotal = $cart->qty * $cart->price;
-                ?>
-                <tr>
-                    <td>{{$loop->iteration}}</td>
-                    <td>{{$cart->name}}</td>
-                    <td>
-                        {{$cart->qty}}
-                    </td>
-                    <td align="right">Rp. {{ number_format($cart->price /1000,3) }}</td>
-                    <td align="right">Rp. {{ number_format($subtotal /1000,3) }}</td>
-                </tr>
-                <?php 
-                    $total+=$subtotal;
-                ?>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td align="right" colspan="4" class="font-weight-bold">Total </td>
-                    <td align="right" name="total">Rp. {{ number_format($total /1000,3) }}</td>
-                </tr>
-            </tfoot>
-        </table> <br>
-           
-        <div align="right">
-            <div class="text-right"><a href="/clear" class="btn btn-danger col-sm-2">Clear cart</a>
-            <a href="/beranda" class="btn btn-primary col-sm-2">Continue Shopping</a></div>
-            <!-- <div class="text-center"><a href="/order" class="btn btn-success col-sm-2">Check out</a></div> -->
-        </div><br>
 
-            <form action="/invoice" method="post">
-              @csrf
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                </div>
-              </div>
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="Telepon" id="Telepon" placeholder="Telepon" required>
-              </div>
-              <div class="form-group mt-3">
-                <select
-                  class="form-control"
-                  id="category_id"
-                  name="pembayaran"
-                  required
-                  style="width: 100%; color: #6e707e;"
-                >
-                  <option value="" disabled selected>Pilih pembayaran</option>
-                    <option value="BRI">BRI</option>
-                    <option value="BNI">BNI</option>
-                    <option value="Linkaja">Linkaja</option>
-                    <option value="DANA">DANA</option>
-                </select>
-              </div> 
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="norek" id="norek" placeholder="No Rekening" required>
-              </div>
-              <div class="row mt-3">
-                <div class="col-md-6 form-group">
-                  <textarea class="form-control" name="Alamat" rows="7" placeholder="Alamat" required></textarea>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <textarea class="form-control" name="ket" rows="7" placeholder="Keterangan Tambahan" required></textarea>
-                </div>
-              </div>
-              <div class="text-center mt-3"><button type="submit" class="btn col-sm-2" style="background-color: #008080; color: white;">Pesan</button></div>  
-            </form>
+        {{-- ======================== KOLOM KANAN ======================== --}}
+        <div class="col-md-4" style="margin-top:40px;">
+          <div class="card shadow-sm mb-3">
+            <div class="card-body">
+              <h5 class="card-title mb-3">Ringkasan Pesanan</h5>
 
-      </div>
-    </section><!-- End Contact Section -->
+              <div class="d-flex justify-content-between mb-1">
+                <span>Subtotal</span>
+                <span id="subtotalSelected">Rp 0</span>
+              </div>
 
+              <div class="d-flex justify-content-between mb-1">
+                <span>Ongkir</span>
+                <span>Rp 0</span>
+              </div>
 
-</div>       
+              <hr>
+
+              <div class="d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span id="totalSelected">Rp 0</span>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" id="checkoutBtn"
+                  class="btn w-100 py-2"
+                  style="background:#008080; color:white;"
+                  disabled>
+            Checkout
+          </button>
+        </div>
+
+      </div> {{-- end .row --}}
+    </form> {{-- end form --}}
+
+  </div>
+</section>
+
+<script>
+  const selectAll        = document.getElementById('select-all');
+  const checkboxes       = document.querySelectorAll('.item-checkbox');
+  const subtotalSelected = document.getElementById('subtotalSelected');
+  const totalSelected    = document.getElementById('totalSelected');
+  const checkoutBtn      = document.getElementById('checkoutBtn');
+
+  function updateTotal() {
+    let total = 0;
+    let selected = 0;
+
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        total += parseInt(cb.dataset.price);
+        selected++;
+      }
+    });
+
+    const formatted = 'Rp ' + total.toLocaleString('id-ID');
+    subtotalSelected.textContent = formatted;
+    totalSelected.textContent    = formatted;
+    checkoutBtn.disabled         = selected === 0;
+  }
+
+  selectAll.addEventListener('change', () => {
+    checkboxes.forEach(cb => cb.checked = selectAll.checked);
+    updateTotal();
+  });
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      if (!cb.checked) selectAll.checked = false;
+      updateTotal();
+    });
+  });
+</script>
 @endsection

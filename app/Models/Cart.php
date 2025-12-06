@@ -12,5 +12,6 @@ class Cart extends Model
         'product',
         'quantity',
         'price',
+        'gambar',
     ];
 }
