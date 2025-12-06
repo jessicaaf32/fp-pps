@@ -1,3 +1,62 @@
+<style>
+  .text-limit-1 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+  }
+
+  .text-limit-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+  }
+
+  .portfolio-wrap {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .portfolio-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .portfolio-info p {
+      margin-bottom: 6px;
+  }
+  .product-action {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+  }
+
+  .qty-input {
+      width: 55px;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+  }
+
+  .btn-buy-modern {
+      background: #008080;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+  }
+</style>
+
+
+
 @extends('index')
 @section('title','Beranda')
 @section('Beranda','active')
@@ -148,7 +207,7 @@
 
         <div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order" data-aos="fade-up" data-aos-delay="100">
 
-          <div>
+          <div class="mb-3">
             <ul class="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
               <li data-filter=".filter-Pemrograman">Buku Pemrograman</li>
@@ -160,33 +219,48 @@
 
           <div class="row gy-4 portfolio-container">
             @foreach ($product as $products)
-              <div class="col-xl-4 col-md-6 portfolio-item filter-{{$products->category}}">
-                <div class="portfolio-wrap">
-                  <a href="{{ asset('/img/product/'.$products->gambar) }}" data-gallery="portfolio-gallery-app" class="glightbox"><img src="{{ asset('/img/product/'.$products->gambar) }}" class="img-fluid w-100"
-     style="height: 250px; object-fit: cover; border-radius: 10px;" alt=""></a>
-                  <div class="portfolio-info">              
-                    <h4><a href="portfolio-details.html" title="More Details">{{ $products->product }}</a></h4>
-                    <p>{{ $products->ket1 }}</p>
-                    <p>{{ $products->height }}</p>
-                    <p>{{ $products->ket3 }}</p><br>
-                    <div class="text-center">
-                      <form class="row" method="post" action="/add_to_cart">
-					              @csrf
-                        <div class="col-md-6 form-group">
-                          <input type="hidden" class="form-control" name="id" value="{{ $products->id }}">
-                          <input type="number" class="form-control"  name="quantity" value="1" id="" style="width:50px;">
-                        </div>
-                        <div class="col-md-6 form-group mt-3 mt-md-0">
-                          <button class="btn btn-buy" style="color: #008080;"><i class="fa fa-shopping-cart"></i>  Rp. {{ number_format($products->price /1000,3) }}</a></button>
-                        </div>
-                      </form>
-                    </div>
-                    
+            <div class="col-xl-4 col-md-6 portfolio-item filter-{{$products->category}}">
+              <div class="portfolio-wrap h-100">
+
+                <a href="{{ asset('/img/product/'.$products->gambar) }}" 
+                  data-gallery="portfolio-gallery-app" class="glightbox">
+
+                  <img src="{{ asset('/img/product/'.$products->gambar) }}"
+                    class="img-fluid w-100"
+                    style="height:250px; object-fit:cover; border-radius:10px;">
+                </a>
+
+                <div class="portfolio-info">
+
+                  <h4 class="text-limit-1">
+                    <a href="#">{{ $products->product }}</a>
+                  </h4>
+
+                  <p class="text-limit-2">{{ $products->ket1 }}</p>
+
+                  <div class="text-center mt-4 mb-0">
+                    <form class="row" method="post" action="/add_to_cart">
+                      @csrf
+
+                      <div class="product-action mt-3">
+                          <input type="hidden" name="id" value="{{ $products->id }}">
+
+                          <input type="number" class="qty-input" name="quantity" value="1" min="1">
+
+                          <button class="btn btn-buy-modern" style="background:#008080;color:#fff;">
+                              <i class="fa fa-shopping-cart" style="margin-right:7px;"></i>
+                              Rp. {{ number_format($products->price/1000,3) }}
+                          </button>
+                      </div>
+
+                      
+                    </form>
                   </div>
+
                 </div>
-              </div><!-- End Portfolio Item -->
-           
-          @endforeach
+              </div>
+            </div>
+            @endforeach
 
           </div>
           <!-- End Portfolio Container -->
