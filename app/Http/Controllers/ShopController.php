@@ -17,6 +17,7 @@ use App\Models\ForumAnswers;
 use App\Models\ForumQuestions;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\User;
 use Sessions;
 
 class ShopController extends Controller
@@ -269,6 +270,75 @@ class ShopController extends Controller
        $questions = Questions::all();
        return view('beranda',['product' => $product], ['questions' => $questions]);
     }
+
+    public function account() {
+        return view('account', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function edit() {
+        return view('edit_account', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function update(Request $request) {
+        $request->validate([
+            'username'   => 'required',
+            'phone'  => 'nullable',
+            'address'=> 'nullable',
+            'ava'    => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        // Update text data
+        $user->username = $request->username;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+
+        // UPDATE FOTO PROFIL
+        if ($request->hasFile('ava')) {
+            $file = $request->file('ava');
+            $filename = time() . '-' . $file->getClientOriginalName();
+            $file->move(public_path('img/team'), $filename);
+
+            // hapus foto lama
+            if ($user->ava && file_exists(public_path('img/team/'.$user->ava))) {
+                @unlink(public_path('img/team/'.$user->ava));
+            }
+
+            $user->ava = $filename;
+        }
+
+
+        /** @var \App\Models\User $user */
+        $user->save();
+
+        return redirect('/account')->with('success', 'Profil berhasil diperbarui!');
+    }
+
+
+    public function address() {
+        return view('address', [
+            'user' => Auth::user()
+        ]);
+    }
+
+    public function saveAddress(Request $request) {
+        $request->validate([
+            'address' => 'required'
+        ]);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->address = $request->address;
+        $user->save();
+
+        return redirect('/account/address')->with('success', 'Alamat berhasil diperbarui!');
+    }
+
     // public function simpaninvoice(Request $request){    
     //     $invoice = Invoice::create([
     //         'nama' => $request->name,

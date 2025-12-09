@@ -1,3 +1,54 @@
+<style>
+  .text-limit-1 {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+  }
+
+
+  .portfolio-wrap {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .portfolio-info {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .portfolio-info p {
+      margin-bottom: 6px;
+  }
+  .product-action {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+  }
+
+  .qty-input {
+      width: 55px;
+      padding: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+  }
+
+  .btn-buy-modern {
+      background: #008080;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+  }
+</style>
+
 @extends('index')
 @section('title','Webinar')
 @section('Webinar','active')
@@ -32,7 +83,7 @@
                 <div class="portfolio-wrap">
                   <a href="{{ asset('/img/webinar/'.$webinars->poster_url) }}" data-gallery="portfolio-gallery-app" class="glightbox"><img src="{{ asset('/img/webinar/'.$webinars->poster_url) }}" class="img-fluid w-100" style="height: 250px; object-fit: cover; border-radius: 10px;" alt=""></a>
                   <div class="portfolio-info">   
-                    <h4 class="mb-3"><a href="#" title="More Details">{{ $webinars->title }}</a></h4>
+                    <h4 class="text-limit-1 mb-3"><a href="#" title="More Details">{{ $webinars->title }}</a></h4>
                     <p><i class="bi bi-calendar2-week"></i>    {{ $webinars->date }}</p>
                     <p><i class="bi bi-alarm"></i>   {{ $webinars->time_start }} - {{ $webinars->time_end }}</p>  
                     <div class="text-center mt-3">

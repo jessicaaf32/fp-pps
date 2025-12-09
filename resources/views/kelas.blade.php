@@ -1,3 +1,12 @@
+<style>
+  .btn-buy:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+      transition: 0.2s;
+  }
+</style>
+
+
 @extends('index')
 @section('title','Kelas')
 @section('Kelas','active')
@@ -13,6 +22,7 @@
       <div class="section-header">
         <h2>Daftar Kelas</h2>
       </div>
+      
       <div class="row gy-4">
         @foreach ($kelas as $class)
         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -38,13 +48,25 @@
 
               <div id="faq-content-{{$class->id}}" class="accordion-collapse collapse" 
                     data-bs-parent="#faqlist-{{$class->id}}">
-                <div class="accordion-body">
+                <div class="accordion-body" style="padding-left: 20px;">
                   {{$class->keterangan}}
                 </div>
               </div>
-              <div class="text-center">
-                <div class="col-md-12 form-group mt-3 mt-md-0">
-                  <button class="btn btn-buy btn-info-outline" style="color: #008080;"><a href="/materi/{{ $class->id }}">Masuk ke materi</a></button>
+              <div class="text-center" style="margin-top: 0px; padding-top: 0px;">
+                <div class="col-md-12 form-group mt-md-0">
+                  <a href="/materi/{{ $class->id }}" 
+                    class="btn btn-buy"
+                    style="
+                        color:#008080;
+                        background:transparent;
+                        width:100%;
+                        display:block;
+                        border-radius:6px;
+                        padding-bottom: 30px;
+                    ">
+                    Masuk ke materi
+                  </a>
+
                 </div>
               </div>
             </div>
@@ -55,7 +77,6 @@
         @endforeach
 
       </div>
-
     </div>
   </section>
 </main>

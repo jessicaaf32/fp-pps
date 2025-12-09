@@ -48,14 +48,14 @@
       </a>
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="/beranda" class="nav-link">Beranda</a></li>
-          <li><a href="#about">Tentang</a></li>
+          <li><a href="/beranda#hero" class="nav-link">Beranda</a></li>
+          <li><a href="/beranda#about">Tentang</a></li>
           <li><a href="/kelas" class="nav-link @yield('Kelas')">Kelas</a></li>
           <li><a href="#" class="nav-link @yield('Kuis')">Kuis</a></li>
           <li><a href="/diskusi" class="nav-link @yield('Diskusi')">Diskusi</a></li>
           <li><a href="/webinar" class="nav-link @yield('Webinar')">Webinar</a></li>
-          <li><a href="#portfolio" class="nav-link @yield('Shop')">Penunjang Pembelajaran</a></li>
-          <li><a href="#contact">Kontak</a></li>
+          <li><a href="/beranda#portfolio" class="nav-link @yield('Shop')">Penunjang Pembelajaran</a></li>
+          <li><a href="/beranda#contact">Kontak</a></li>
           <li>
             <a href="/cart" class="nav-link @yield('Cart')"><i class="fa fa-shopping-cart" style="font-size:15px"></i>
               <span class="badge bg-info" style="font-size:7px; margin-left:-5px; margin-top:-5px;">
@@ -63,7 +63,14 @@
               </span>
             </a>
           </li>
-          <li class="dropdown"><a href="#"><i class="fa fa-user-circle"></i>&nbsp; Hai, {{Auth::user()->username}}</a>
+          <li class="dropdown">
+            <a href="/account" class="nav-link @yield('Akun')">
+              <img src="{{ asset('/img/team/'.Auth::user()->ava) }}"
+                                                class="rounded-circle me-2"
+                                                width="35" height="35">
+              &nbsp; Hai, {{ Str::limit(Auth::user()->username, 6, '') }}
+
+            </a>
             <ul>
               <li><a href="/logout">Keluar</a></li>
             </ul>

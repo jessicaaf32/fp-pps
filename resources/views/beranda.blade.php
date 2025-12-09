@@ -55,8 +55,6 @@
   }
 </style>
 
-
-
 @extends('index')
 @section('title','Beranda')
 @section('Beranda','active')
