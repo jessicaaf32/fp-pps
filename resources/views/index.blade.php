@@ -51,7 +51,7 @@
           <li><a href="/beranda#hero" class="nav-link">Beranda</a></li>
           <li><a href="/beranda#about">Tentang</a></li>
           <li><a href="/kelas" class="nav-link @yield('Kelas')">Kelas</a></li>
-          <li><a href="#" class="nav-link @yield('Kuis')">Kuis</a></li>
+          <li><a href="/quiz" class="nav-link @yield('Kuis')">Kuis</a></li>
           <li><a href="/diskusi" class="nav-link @yield('Diskusi')">Diskusi</a></li>
           <li><a href="/webinar" class="nav-link @yield('Webinar')">Webinar</a></li>
           <li><a href="/beranda#portfolio" class="nav-link @yield('Shop')">Penunjang Pembelajaran</a></li>

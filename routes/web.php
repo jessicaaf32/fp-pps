@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ShopController; 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\QuizController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +46,12 @@ Route::post('/forgot_password', [LoginController::class, 'aksi_forgot'])->name('
 
 // LOGOUT
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/quiz', [QuizController::class, 'index'])->middleware('auth')->name('quiz');
+Route::get('/quiz/{slug}/question/{index}', [QuizController::class, 'question'])->middleware('auth')->name('questions');
+Route::post('/quiz/{slug}/question/{index}', [QuizController::class, 'answer'])->middleware('auth')->name('answers');
+Route::get('/quiz/{slug}/score', [QuizController::class, 'score'])->middleware('auth')->name('quiz_score');
+Route::get('/quiz/highscores/{slug}', [QuizController::class, 'highscores'])->middleware('auth')->name('quiz_highscores');
 
 Route::get('/beranda',[ShopController::class, 'beranda'])->middleware('auth');
 Route::get('/cart',[ShopController::class, 'cart'])->middleware('auth');
