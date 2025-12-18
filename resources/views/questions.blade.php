@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container py-5" style="max-width: 700px">
-
     <div class="mb-3 text-muted">
         Question {{ $index }} of {{ $total }}
     </div>
@@ -28,11 +27,11 @@
                 </label>
             </div>
         @endforeach
-
-        <button class="btn btn-quiz mt-4">
-            Answer
-        </button>
+        <div class="d-flex justify-content-end mt-4">
+            <button class="btn btn-success px-4 py-2 fw-bold shadow-sm">
+                Answer
+            </button>
+        </div>     
     </form>
-
 </div>
 @endsection

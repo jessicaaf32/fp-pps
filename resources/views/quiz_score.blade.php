@@ -42,9 +42,48 @@
         </div>
 
         <div class="d-grid gap-2">
-            <a href="{{ route('quiz') }}" class="btn btn-quiz py-3">Take Another Quiz</a>
-            <a href="/beranda" class="btn btn-link text-muted">Back to Home</a>
+            {{-- We use d-inline-block instead of d-grid if you want it to not stretch full width, 
+                or keep the d-grid but use the btn-answer class --}}
+            <div class="d-flex justify-content-center mt-3">
+                <a href="{{ route('quiz') }}" class="quiz-btn-nav btn-answer text-decoration-none">
+                    Take Another Quiz
+                </a>
+                <a href="{{ route('quiz_highscores', $slug) }}" class="quiz-btn-nav btn-next-step text-decoration-none">
+                    View Leaderboard
+                </a>
+            </div>
+            <a href="/beranda" class="btn btn-link text-muted mt-2">Back to Home</a>
         </div>
     </div>
 </div>
 @endsection
+
+<style>
+    /* This class ensures the height and internal spacing match exactly */
+    .quiz-btn-nav {
+        display: inline-block;
+        padding: 10px 30px;    /* Vertical and Horizontal padding */
+        font-weight: bold;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        font-size: 1rem;       /* Constant font size */
+        line-height: 1.5;      /* Constant line height */
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent; /* Keeps height same as bordered buttons */
+    }
+
+    /* The Green Color (Matches your Answer button) */
+    .btn-answer {
+        background-color: #198754 !important; /* Bootstrap Green */
+        color: #ffffff !important;
+        border-color: #198754 !important;
+    }
+
+    .btn-answer:hover {
+        background-color: #157347 !important;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>

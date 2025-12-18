@@ -6,25 +6,47 @@
     <h2 class="fw-bold mb-4">Available Quizzes</h2>
 
     <div class="row g-4">
-        @foreach ($quizzes as $quiz)
-            <div class="col-md-4">
-                <div class="quiz-card h-100">
-                    <div class="quiz-image-wrapper">
-                        <img src="{{ asset($quiz['image']) }}"
-                            alt="{{ $quiz['title'] }}">
-                    </div>
-
-                    <div class="quiz-body">
-                        <h5 class="fw-bold">{{ $quiz['title'] }}</h5>
-
-                        <p class="text-muted small">
-                            {{ $quiz['description'] }}
-                        </p>
+        @foreach($quizzes as $quiz)
+            <div class="card mb-3 shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+                <div class="card-body p-0"> {{-- Remove padding from body to let image touch edges --}}
+                    <div class="d-flex align-items-center">
                         
-                        <a href="{{ route('questions', [$quiz['slug'], 1]) }}"
-                           class="btn btn-quiz w-100">
-                            Start Quiz
-                        </a>
+                        <div class="flex-shrink-0" style="width: 120px; height: 120px;">
+                            <img src="{{ asset( $quiz['image']) }}" 
+                                alt="{{ $quiz['title'] }}" 
+                                style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+
+                        <div class="flex-grow-1 ms-4 p-3">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <h5 class="fw-bold mb-0">{{ $quiz['title'] }}</h5>
+                                
+                                {{-- Trophy Button --}}
+                                <a href="{{ route('quiz_highscores', $quiz['slug']) }}" 
+                                class="quiz-btn-nav btn-next-step d-inline-flex align-items-center justify-content-center" 
+                                style="width: 32px; height: 32px; padding: 0; border-radius: 5px;"
+                                title="View Leaderboard">
+                                    <span style="font-size: 1rem;">🏆</span>
+                                </a>
+                            </div>
+
+                            <p class="text-muted small mb-0">{{ $quiz['description'] }}</p>
+                            
+                            @if(isset($userHighScores[$quiz['slug']]))
+                                <div class="mt-2">
+                                    <span class="badge rounded-pill bg-light text-success border border-success px-3">
+                                        🏆 Personal Best: {{ $userHighScores[$quiz['slug']] }}
+                                    </span>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="pe-4">
+                            <a href="{{ route('questions', [$quiz['slug'], 1]) }}" class="quiz-btn-nav btn-answer text-decoration-none">
+                                Start Quiz
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>

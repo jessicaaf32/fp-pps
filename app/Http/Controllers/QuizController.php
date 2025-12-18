@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 class QuizController extends Controller
 {
     public array $quizzes = [
@@ -559,14 +560,49 @@ class QuizController extends Controller
     public function score(string $slug)
     {
         $sessionKey = "quiz_progress.$slug";
-        $progress = session()->get($sessionKey);
+        $progress = session()->pull($sessionKey);
+
         if (!$progress) {
             return redirect()->route('quiz');
         }
+        // Save to Database
+        \DB::table('highscores')->insert([
+            'quiz_slug'  => $slug,
+            'user_name'  => Auth::user()->username,
+            'score'      => $progress['total_score'],
+            'time_spent' => $progress['total_time'],
+            'created_at' => now(),
+        ]);
+
+    // Clear the session so they don't double-save on refresh
+    session()->forget("quiz_results.$slug");
 
         return view('quiz_score', [
             'quiz' => collect($this->quizzes)->firstWhere('slug', $slug),
-            'results' => $progress
+            'results' => $progress,
+            'slug' => $slug
         ]);
+    }
+
+    public function highscores($slug)
+    {
+        // 1. Get Global High Scores (Top 10)
+        $globalScores = \DB::table('highscores')
+            ->where('quiz_slug', $slug)
+            ->orderByDesc('score')
+            ->orderBy('time_spent')
+            ->limit(10)
+            ->get();
+
+        // 2. Get Personal High Score 
+        // If you don't have Auth, you might look for the name in the session
+        $personalBest = \DB::table('highscores')
+            ->where('quiz_slug', $slug)
+            ->where('user_name', Auth::user()->username)
+            ->orderByDesc('score')
+            ->orderBy('time_spent')
+            ->first();
+
+        return view('quiz_highscores', compact('globalScores', 'personalBest', 'slug'));
     }
 }
