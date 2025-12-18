@@ -1,321 +1,296 @@
-
 <!DOCTYPE html>
+
 <!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
 -->
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>@yield('title','Admin')</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{{asset('admin/AdminLTE/plugins/fontawesome-free/css/all.min.css')}}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('admin/AdminLTE/dist/css/adminlte.min.css')}}">
+<html lang="en" dir="ltr">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>@yield('title','Beranda')</title>
+    
+  <!-- theme meta -->
+  <meta name="theme-name" content="mono" />
+
+  <!-- GOOGLE FONTS -->
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
+<!-- MATERIAL ICONS -->
+  <link href="{{ asset('admin/plugins/material/css/materialdesignicons.min.css') }}" rel="stylesheet" />
+
+  <!-- SIMPLEBAR -->
+  <link href="{{ asset('admin/plugins/simplebar/simplebar.css') }}" rel="stylesheet" />
+
+  <!-- PLUGINS CSS -->
+  <link href="{{ asset('admin/plugins/nprogress/nprogress.css') }}" rel="stylesheet" />
+  <link href="{{ asset('admin/plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('admin/plugins/jvectormap/jquery-jvectormap-2.0.3.css') }}" rel="stylesheet" />
+  <link href="{{ asset('admin/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
+
+  <!-- QUILL (CDN, BIARKAN) -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+  <!-- TOASTR -->
+  <link href="{{ asset('admin/plugins/toaster/toastr.min.css') }}" rel="stylesheet" />
+
+  <!-- MONO MAIN CSS -->
+  <link id="main-css-href" rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="{{asset('login/images/icons/favicon.ico')}}"/>
+
+  <!-- NPROGRESS JS (HEAD) -->
+  <script src="{{ asset('admin/plugins/nprogress/nprogress.js') }}"></script>
+
 </head>
-<body class="hold-transition skin-black-light sidebar-mini">
-<div class="wrapper">
 
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-    </ul>
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
+  <body class="navbar-fixed sidebar-fixed" id="body">
+    <script>
+      NProgress.configure({ showSpinner: false });
+      NProgress.start();
+    </script>
+
+    
+    <div id="toaster"></div>
+    
+
+    <!-- ====================================
+    ——— WRAPPER
+    ===================================== -->
+    <div class="wrapper">
+      
+      
+        <!-- ====================================
+          ——— LEFT SIDEBAR WITH OUT FOOTER
+        ===================================== -->
+        <aside class="left-sidebar sidebar-dark" id="left-sidebar">
+          <div id="sidebar" class="sidebar sidebar-with-footer">
+            <!-- Aplication Brand -->
+            <div class="app-brand">
+              <a href="/beranda">
+                <span class="brand-name"><h1 style="color: white;">GROWID<span style="color: orangered;">.</span></h1></span>
+                
+              </a>
             </div>
-          </form>
-        </div>
-      </li>
+            <!-- begin sidebar scrollbar -->
+            <div class="sidebar-left" data-simplebar style="height: 100%;">
+              <!-- sidebar menu -->
+              <ul class="nav sidebar-inner" id="sidebar-menu">
 
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">3</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
+                  <li class="{{ request()->is('dashboard_admin') ? 'active' : '' }}">
+                    <a class="sidenav-item-link" href="/dashboard_admin">
+                      <i class="mdi mdi-briefcase-account-outline"></i>
+                      <span class="nav-text">Business Dashboard</span>
+                    </a>
+                  </li>
+                
+                  <li class="section-title">
+                    Apps
+                  </li>
+               
+                  <li class="{{ request()->is('users_admin') ? 'active' : '' }}">
+                    <a class="sidenav-item-link @yield('Users')" href="/users_admin">
+                      <i class="mdi mdi-account-multiple-outline"></i>
+                      <span class="nav-text">User</span>
+                    </a>
+                  </li>
+
+                  <li class="{{ request()->is(['kelas_admin', 'materi_admin']) ? 'active' : '' }}">
+                    <a class="sidenav-item-link @yield('Kelas')" href="/kelas_admin">
+                      <i class="mdi mdi-school"></i>
+                      <span class="nav-text">Kelas</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="sidenav-item-link @yield('Quiz')" href="/quiz_admin">
+                      <i class="mdi mdi-help-circle"></i>
+                      <span class="nav-text">Quiz</span>
+                    </a>
+                  </li>
+
+                  <li class="{{ request()->is(['webinar_admin']) ? 'active' : '' }}">
+                    <a class="sidenav-item-link @yield('Webinar')" href="/webinar_admin">
+                      <i class="mdi mdi-video-outline"></i>
+                      <span class="nav-text">Webinar</span>
+                    </a>
+                  </li>
+
+                  <li class="{{ request()->is(['diskusi_admin']) ? 'active' : '' }}">
+                    <a class="sidenav-item-link @yield('Diskusi')" href="/diskusi_admin">
+                      <i class="mdi mdi-forum-outline"></i>
+                      <span class="nav-text">Diskusi</span>
+                    </a>
+                  </li>
+
+                  <li class="{{ request()->is(['marketplace_admin']) ? 'active' : '' }}">
+                    <a class="sidenav-item-link @yield('Marketplace')" href="/marketplace_admin">
+                      <i class="mdi mdi-store"></i>
+                      <span class="nav-text">Marketplace</span>
+                    </a>
+                  </li>
+
+              </ul>
             </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  John Pierce
-                  <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">I got your message bro</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Nora Silvester
-                  <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">The subject goes here</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-        </div>
-      </li>
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-green elevation-4">
-    <a href="/beranda" class="brand-link">
-      <h4>GROWID<span class="brand-text font-weight-light" style="color:#ff6b00;">.</span></h4>
-    </a>
-
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-
-    <!-- Sidebar Brand (Header) -->
-    <a href="/admin" class="brand-link d-flex align-items-center" style="gap:10px;">
-        <img src="{{asset('admin/img/leaflogo.png')}}"
-             alt="Logo"
-             class="brand-image img-circle elevation-3"
-             style="width:35px; height:35px; object-fit:cover;">
-        
-        <h4>GROWID<span class="brand-text font-weight-light" style="color:#ff6b00;">.</span></h4>
-        <!-- <span class="brand-text font-weight-light" style="font-size:18px;">
-            GROWID
-        </span> -->
-
-        <!-- Close Icon (seperti AdminLTE 4) -->
-        <i class="fas fa-times ml-auto mr-2" data-widget="pushmenu" style="cursor:pointer;"></i>
-    </a>
-
-
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
           </div>
-        </div>
-      </div>
+        </aside>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+      <!-- ====================================
+      ——— PAGE WRAPPER
+      ===================================== -->
+      <div class="page-wrapper">
+        
+          <!-- Header -->
+          <header class="main-header" id="header">
+            <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+              <!-- Sidebar toggle button -->
+              <button id="sidebar-toggler" class="sidebar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
+
+              <span class="page-title">dashboard</span>
+
+              <div class="navbar-right ">
+
+                <!-- search form -->
+                <div class="search-form">
+                  <form action="index.html" method="get">
+                    <div class="input-group input-group-sm" id="input-group-search">
+                      <input type="text" autocomplete="off" name="query" id="search-input" class="form-control" placeholder="Search..." />
+                      <div class="input-group-append">
+                        <button class="btn" type="button">/</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <ul class="nav navbar-nav">
+                  <!-- Offcanvas -->
+                  <!-- User Account -->
+                  <li class="dropdown user-menu">
+                    <button class="dropdown-toggle nav-link" data-toggle="dropdown">
+                      <img src="{{ asset('img/team/Default.png') }}" class="user-image rounded-circle" alt="User Image" />
+                      <span class="d-none d-lg-inline-block">Admin</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li>
+                        <a class="dropdown-link-item" href="#">
+                          <i class="mdi mdi-settings"></i>
+                          <span class="nav-text">Account Setting</span>
+                        </a>
+                      </li>
+                      <li class="dropdown-footer">
+                        <a class="dropdown-link-item" href="sign-in.html"> <i class="mdi mdi-logout"></i> Log Out </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+
+
+          </header>
+
+          @yield('content')
+        
+          <!-- Footer -->
+          <footer class="footer mt-auto">
+            <div class="copyright bg-white">
               <p>
-                Starter Pages
-                <i class="right fas fa-angle-left"></i>
+                &copy; <span id="copy-year"></span> Copyright Mono Dashboard Bootstrap.
               </p>
-              
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/product" class="nav-link @yield('Products')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Products</p>
-                </a>
-              </li>
-            </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/question" class="nav-link @yield('Question')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Questions</p>
-                </a>
-              </li> 
-            </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/order" class="nav-link @yield('Order')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Order</p>
-                </a>
-              </li> 
-            </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/user" class="nav-link @yield('User')">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Users</p>
-                </a>
-              </li> 
-            </ul>
-          </li>
-          
-        </ul>
-      </nav>
+            </div>
+            <script>
+                var d = new Date();
+                var year = d.getFullYear();
+                document.getElementById("copy-year").innerHTML = year;
+            </script>
+          </footer>
 
-      
-
-      
-
-      
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  @yield('content')
-  <!-- /.content-wrapper -->
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Anything you want
-    </div>
-    <!-- Default to the left -->
-    <div class="text-center">
-      <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+      </div>
     </div>
     
-  </footer>
-</div>
-<!-- ./wrapper -->
+                    <!-- JQUERY -->
+                    <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
 
-<!-- REQUIRED SCRIPTS -->
+                    <!-- BOOTSTRAP -->
+                    <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<!-- jQuery -->
-<script src="{{asset('admin/AdminLTE/plugins/jquery/jquery.min.js')}}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('admin/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('admin/AdminLTE/dist/js/adminlte.min.js')}}"></script>
-<script src="{{ asset('admin/vendor/datatables/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('admin/vendor/select2/dist/js/select2.full.min.js') }}"></script>
-  <script>
-    $(document).ready(function() {
-      $('#dataTable').DataTable();
-    });
-    if(jQuery().select2) {
-      $(".select2").select2();
-    }
-    function inputNumber(e) {
-      const charCode = (e.which) ? e.which : w.keyCode;
-      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-      }
-      return true;
-    };
-  </script>
+                    <!-- SIMPLEBAR -->
+                    <script src="{{ asset('admin/plugins/simplebar/simplebar.min.js') }}"></script>
 
-</body>
+                    <!-- HOTKEYS (CDN, BIARKAN) -->
+                    <script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+
+                    <!-- APEXCHARTS -->
+                    <script src="{{ asset('admin/plugins/apexcharts/apexcharts.js') }}"></script>
+
+                    <!-- DATATABLES -->
+                    <script src="{{ asset('admin/plugins/DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js') }}"></script>
+
+                    <!-- JVECTORMAP -->
+                    <script src="{{ asset('admin/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js') }}"></script>
+                    <script src="{{ asset('admin/plugins/jvectormap/jquery-jvectormap-world-mill.js') }}"></script>
+                    <script src="{{ asset('admin/plugins/jvectormap/jquery-jvectormap-us-aea.js') }}"></script>
+
+                    <!-- DATERANGEPICKER -->
+                    <script src="{{ asset('admin/plugins/daterangepicker/moment.min.js') }}"></script>
+                    <script src="{{ asset('admin/plugins/daterangepicker/daterangepicker.js') }}"></script>
+
+                    <script>
+                      jQuery(document).ready(function() {
+                        jQuery('input[name="dateRange"]').daterangepicker({
+                        autoUpdateInput: false,
+                        singleDatePicker: true,
+                        locale: {
+                          cancelLabel: 'Clear'
+                        }
+                      });
+                        jQuery('input[name="dateRange"]').on('apply.daterangepicker', function (ev, picker) {
+                          jQuery(this).val(picker.startDate.format('MM/DD/YYYY'));
+                        });
+                        jQuery('input[name="dateRange"]').on('cancel.daterangepicker', function (ev, picker) {
+                          jQuery(this).val('');
+                        });
+                      });
+                    </script>
+                    
+                    
+                    
+                    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>         
+                    <!-- TOASTR -->
+                    <script src="{{ asset('admin/plugins/toaster/toastr.min.js') }}"></script>
+
+                    <!-- MONO CORE JS -->
+                    <script src="{{ asset('admin/js/mono.js') }}"></script>
+
+                    <!-- CHART -->
+                    <script src="{{ asset('admin/js/chart.js') }}"></script>
+
+                    <!-- MAP -->
+                    <script src="{{ asset('admin/js/map.js') }}"></script>
+
+                    <!-- CUSTOM -->
+                    <script src="{{ asset('admin/js/custom.js') }}"></script>
+
+                    <!-- <script>
+                      $(document).ready(function () {
+                        $('#productsTable').DataTable({
+                          "pageLength": 10,
+                          "lengthChange": false,
+                          "searching": true,
+                          "ordering": true,
+                          "info": true,
+                          "autoWidth": false
+                        });
+                      });
+                    </script> -->
+
+  </body>
 </html>

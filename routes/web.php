@@ -59,6 +59,8 @@ Route::get('/diskusi',[ShopController::class, 'diskusi'])->middleware('auth');
 Route::get('/diskusi/ask', [ShopController::class, 'askForm'])->middleware('auth');
 Route::post('/diskusi/ask', [ShopController::class, 'storeQuestion'])->middleware('auth');
 //Route::post('/diskusi/like-question/{id}', [ShopController::class, 'likeQuestion']);
+Route::post('/diskusi/jawab/{id}', [ShopController::class, 'jawab'])
+    ->middleware('auth');
 Route::post('/diskusi/like-answer/{id}', [ShopController::class, 'likeAnswer']);
 Route::post('/checkout', [ShopController::class, 'pesan']);
 Route::post('/order', [ShopController::class, 'createOrder']);
@@ -74,63 +76,51 @@ Route::get('/account/security', function () {
     return view('security');
 })->middleware('auth');
 
+
 //ADMIN
-
-// PRODUCTS
-Route::get('/product', [AdminController::class,'product']);
-Route::get('/product/{product}/edit', [AdminController::class,'product_edit'])
-     ->name('product.edit');
-Route::post('/product', [AdminController::class,'aksi_product']);
-Route::patch('/product/{id}', [AdminController::class,'action_product'])->name('product.action');
-Route::delete('/product/{id}', [AdminController::class,'destroy'])->name('product.destroy');
-
-// QUESTIONS
-Route::get('/question', [AdminController::class,'question']);
-Route::get('/question/{id}/edit', [AdminController::class,'question_edit'])->name('question.edit');
-Route::post('/question', [AdminController::class,'aksi_question']);
-Route::patch('/question/{id}', [AdminController::class,'question_action'])->name('question.action');
-Route::delete('/question/{id}', [AdminController::class,'destroy_question'])->name('question.destroy');
-
-// USERS
-Route::get('/user', [AdminController::class,'user']);
-Route::post('/user', [AdminController::class,'aksi_user']);
+Route::get('/dashboard_admin', [AdminController::class, 'dashboard']);
+Route::get('/users_admin', [AdminController::class, 'user']);
 Route::delete('/user/{id}', [AdminController::class,'destroy_user'])->name('user.destroy');
+Route::post('/add_users', [AdminController::class, 'store'])->name('user.store');
+Route::put('/update_user/{id}', [AdminController::class, 'update'])->name('user.update');
 
-// ORDERS
-Route::get('/order', [AdminController::class,'order']);
-Route::delete('/order/{id}', [AdminController::class,'destroy_order'])->name('order.destroy');
+//KELAS
+Route::get('/kelas_admin', [AdminController::class, 'kelas']);
+Route::get('/materi_admin', [AdminController::class, 'materi'])->name('materi.view');
 
+//WEBINAR
+Route::get('/webinar_admin', [AdminController::class, 'webinar']);
 
-// //ADMIN
-// Route::delete('/product/{product}', [AdminController::class,'destroy'])->name('product.destroy');
-// Route::get('/edit/{product}', [AdminController::class,'product_edit'])->name('product.edit');
-// Route::get('/product_tambah', [AdminController::class,'product_tambah']);
-// Route::post('/aksi_product', [AdminController::class,'aksi_product']);
-// Route::patch('/action_product/{product}', [AdminController::class,'action_product'])->name('product.action');
+//DISKUSI
+Route::get('/diskusi_admin', [AdminController::class, 'diskusi']);
 
+//MARKETPLACE
+Route::get('/marketplace_admin', [AdminController::class, 'marketplace']);
+// Route::prefix('admin')->middleware('auth')->group(function () {
 
-// Route::delete('/question/{question}', [AdminController::class,'destroy_question'])->name('question.destroy');
-// Route::get('/edit_question/{question}', [AdminController::class,'question_edit'])->name('question.edit');
-// Route::get('/question_tambah', [AdminController::class,'question_tambah']);
-// Route::post('/aksi_question', [AdminController::class,'aksi_question']);
-// Route::patch('/action_question/{question}', [AdminController::class,'question_action'])->name('question.action');
+//     Route::get('/admin', function () {
+//         return 'ADMIN DASHBOARD OK';
+//     })->name('admin.dashboard');
 
+//     // USERS
+//     Route::get('/users', [AdminController::class,'user'])->name('admin.users');
+//     Route::post('/users', [AdminController::class,'aksi_user']);
+//     Route::delete('/users/{id}', [AdminController::class,'destroy_user']);
 
-// Route::delete('/user/{user}', [AdminController::class,'destroy_user'])->name('user.destroy');
-// Route::get('/edit/{user}', [AdminController::class,'destroy'])->name('user.edit');
-// Route::get('/user_tambah', [AdminController::class,'user_tambah']);
-// Route::post('/aksi_user', [AdminController::class,'aksi_user']);
+//     // PRODUCTS
+//     Route::get('/products', [AdminController::class,'product'])->name('admin.products');
+//     Route::post('/products', [AdminController::class,'aksi_product']);
+//     Route::get('/products/{product}/edit', [AdminController::class,'product_edit']);
+//     Route::patch('/products/{id}', [AdminController::class,'action_product']);
+//     Route::delete('/products/{id}', [AdminController::class,'destroy']);
 
-// Route::delete('/order/{order}', [AdminController::class,'destroy_order'])->name('order.destroy');
-// Route::get('/edit/{order}', [AdminController::class,'destroy'])->name('order.edit');
-// Route::get('/order_tambah', [AdminController::class,'order_tambah']);
-// Route::post('/aksi_order', [AdminController::class,'aksi_order']);
+//     // QUESTIONS
+//     Route::get('/questions', [AdminController::class,'question'])->name('admin.questions');
+//     Route::post('/questions', [AdminController::class,'aksi_question']);
+//     Route::delete('/questions/{id}', [AdminController::class,'destroy_question']);
 
-// Route::get('/product',[AdminController::class, 'product']);
-// Route::get('/question',[AdminController::class, 'question']);
-// Route::get('/order',[AdminController::class, 'order']);
-// Route::get('/user',[AdminController::class, 'user']);
-// // Route::delete('/order/{id}', [AdminController::class,'destroy'])->name('order.destroy');
-// // Route::get('/order/{id}', [AdminController::class,'destroy'])->name('order.edit');
-// // Route::delete('/question/{id}', [AdminController::class,'destroy'])->name('question.destroy');
-// // Route::get('/question/{id}', [AdminController::class,'destroy'])->name('question.edit');
+//     // ORDERS
+//     Route::get('/orders', [AdminController::class,'order'])->name('admin.orders');
+//     Route::delete('/orders/{id}', [AdminController::class,'destroy_order']);
+
+// });

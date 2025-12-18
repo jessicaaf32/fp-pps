@@ -76,7 +76,7 @@ public function register(Request $request)
             session(['is_admin' => true]);
 
             $product = Product::all();
-            return view('admin.products', compact('product'));
+            return redirect('/dashboard_admin');
         }
 
         $user = User::where('username', $request->username)->first();
@@ -91,7 +91,7 @@ public function register(Request $request)
             if (Hash::check($request->password, $user->password)) {
                 Auth::login($user);
                 $product = Product::all();
-                return view('admin.product', compact('product'));
+                return redirect('/dashboard_admin');
             } else {
                 Session::flash('error', 'Password admin salah');
                 return redirect('/');
