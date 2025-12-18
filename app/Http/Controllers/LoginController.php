@@ -52,7 +52,7 @@ public function register(Request $request)
         'email'    => $request->email,
         'username' => $request->username,
         'password' => Hash::make($request->password),
-        'ava'      => 'Default.png'  // isi nama file avatar default
+        //'ava'      => 'Default.png'  // isi nama file avatar default
     ]);
 
     return redirect('/')->with('success', 'Akun berhasil dibuat! Silakan login.');
