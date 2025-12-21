@@ -26,27 +26,39 @@
                         <a href="#" class="btn btn-primary btn-pill" data-toggle="modal" data-target="#modal-stock">Add Product</a>
                       </div>
                       <div class="card-body">
+                      @if (session('success'))
+                          <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          </div>
+                        @endif
+
+                        {{-- ALERT ERROR VALIDATION --}}
+                        @if ($errors->any())
+                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <ul class="mb-0">
+                              @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                              @endforeach
+                            </ul>
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          </div>
+                        @endif
                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                           <thead>
                             <tr>
-                              <th></th>
-                              <th>Gambar</th>
+                              <th>Produk</th>
                               <th>Nama Produk</th>
-                              <th>Keterangan Produk</th>
+                              <th>Deskripsi Produk</th>
                               <th>Harga</th>
                               <th>Kategori</th>
                               <th>Stok</th>
-                              <th>Tanggal Dibuat</th>
-                              <th>Tanggal Dibuah</th>
                               <th></th>
                             </tr>
                           </thead>
                           <tbody>
                             @foreach ($product as $index => $products)
                               <tr>
-                                <td class="py-0">
-
-                                </td>
                                 <td>
                                   @php
                                       $avatar = (!empty($products->gambar) && file_exists(public_path('img/product/'.$products->gambar)))
@@ -56,12 +68,10 @@
                                   <img src="{{ asset('img/product/'.$avatar) }}" alt="Profile Image">
                                 </td>
                                 <td>{{ $products->product }}</td>
-                                <td>{{ $products->ket1 }}</td>
-                                <td>{{ $products->price }}</td>
+                                <td><div>{{ Str::limit($products->ket1, 120, '...') }}</div></td>
+                                <td>Rp {{ number_format($products->price, 0, ',', '.') }}</td>
                                 <td>{{ $products->category }}</td>
                                 <td>{{ $products->stock }}</td>
-                                <td>{{ $products->created_at?->format('d M Y') }}</td>
-                                <td>{{ $products->updated_at?->format('d M Y') }}</td>
                                 <td>
                                   <div class="dropdown">
                                     <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -70,26 +80,28 @@
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                       <form id="delete-user-{{ $products->id }}"
-                                            action="{{ route('user.destroy', $products->id) }}"
+                                            action="{{ route('product.destroy', $products->id) }}"
                                             method="POST"
                                             class="d-none">
                                         @csrf
                                         @method('DELETE')
                                       </form>
                                       <a class="dropdown-item" href="#" onclick="event.preventDefault();
-                                                  if(confirm('Yakin hapus user ini?')) {
+                                                  if(confirm('Yakin hapus product {{$products->product}} ini?')) {
                                                     document.getElementById('delete-user-{{ $products->id }}').submit();
-                                                  }">Delete User</a>
+                                                  }">Delete Product</a>
                                       <a href="#"
                                         class="dropdown-item btn-edit-user"
                                         data-id="{{ $products->id }}"
-                                        data-username="{{ $products->username }}"
-                                        data-email="{{ $products->email }}"
-                                        data-phone="{{ $products->phone }}"
-                                        data-address="{{ $products->address }}"
+                                        data-product="{{ $products->product }}"
+                                        data-ket1="{{ $products->ket1 }}"
+                                        data-price="{{ $products->price }}"
+                                        data-category="{{ $products->category }}"
+                                        data-stock="{{ $products->stock }}"
+                                        data-gambar="{{ $products->gambar }}"
                                         data-toggle="modal"
                                         data-target="#modal-stock">
-                                        Update User
+                                        Update Product
                                       </a>
                                     </div>
                                   </div>
@@ -98,7 +110,6 @@
                             @endforeach
                           </tbody>
                         </table>
-
                       </div>
                     </div>
                   </div>
@@ -107,117 +118,72 @@
               <!-- Stock Modal -->
               <div class="modal fade modal-stock" id="modal-stock" aria-labelledby="modal-stock" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                  <form id="userForm" method="POST">
+                  <form id="userForm" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-content">
                       <div class="modal-header align-items-center p3 p-md-5">
-                        <h2 class="modal-title" id="exampleModalGridTitle">Add Stock</h2>
+                        <h2 class="modal-title" id="exampleModalGridTitle">Add Product</h2>
                         <div>
                           <button type="button" class="btn btn-light btn-pill mr-1 mr-md-2" data-dismiss="modal"> cancel </button>
-                          <button type="submit" class="btn btn-primary  btn-pill" data-dismiss="modal"> save </button>
+                          <button type="submit" class="btn btn-primary  btn-pill"> save </button>
                         </div>
-
                       </div>
                       <div class="modal-body p3 p-md-5">
                         <div class="row">
                           <div class="col-lg-8">
-                            <h3 class="h5 mb-5">Users Information</h3>
+                            <h3 class="h5 mb-5">Products Information</h3>
                             <div class="form-group mb-5">
                               <input type="hidden" name="_method" id="formMethod">
                               <input type="hidden" name="user_id" id="user_id">
-                              <label for="new-product">Product Title</label>
-                              <input type="text" class="form-control" id="new-product" placeholder="Add Product">
+                              <label for="product">Nama Produk</label>
+                              <input type="text" class="form-control" name="product" id="product" placeholder="Add Produk">
+                            </div>
+                            <div class="form-group mb-5">
+                              <label for="ket1">Deskripsi Produk</label>
+                                <div class="input-group">
+                                  <textarea class="form-control" id="ket1" name="ket1" placeholder="Add Deskripsi Produk" aria-label="ket1"
+                                    aria-describedby="basic-addon1"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group mb-5">
+                                <label for="category">Kategori Produk</label>
+                                <select name="category" id="category" class="form-control">
+                                  <option value="">-- Pilih Kategori Produk --</option>
+                                  <option value="Pemrograman">Pemrograman</option>
+                                  <option value="Praktikum">Praktikum</option>
+                                  <option value="Security">Security</option>
+                                </select>
                             </div>
                             <div class="form-row mb-4">
                               <div class="col">
-                                <label for="price">Price</label>
+                                <label for="price">Harga</label>
                                 <div class="input-group">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">$</span>
                                   </div>
-                                  <input type="text" class="form-control" id="price" placeholder="Price" aria-label="Price"
-                                    aria-describedby="basic-addon1">
+                                  <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="price"
+                                    name="price"
+                                    placeholder="Add harga"
+                                    oninput="formatRupiah(this)"
+                                  >
                                 </div>
                               </div>
                               <div class="col">
-                                <label for="sale-price">Sale Price</label>
+                                <label for="stock">Stock</label>
                                 <div class="input-group">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">$</span>
-                                  </div>
-                                  <input type="text" class="form-control" id="sale-price" placeholder="Sale Price" aria-label="SalePrice"
+                                  <input type="number" class="form-control" id="stock" name="stock" placeholder="Add Stock" aria-label="stock"
                                     aria-describedby="basic-addon1">
                                 </div>
                               </div>
                             </div>
-
-                            <div class="product-type mb-3 ">
-                              <label class="d-block" for="sale-price">Product Type <i class="mdi mdi-help-circle-outline"></i> </label>
-                              <div>
-
-                                <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" checked="checked">
-                                  <label class="custom-control-label" for="customRadio1">Physical Good</label>
-                                </div>
-
-                                <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                                  <label class="custom-control-label" for="customRadio2">Digital Good</label>
-                                </div>
-
-                                <div class="custom-control custom-radio d-inline-block mr-3 mb-3">
-                                  <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
-                                  <label class="custom-control-label" for="customRadio3">Service</label>
-                                </div>
-
-                              </div>
-                            </div>
-
-                            <div class="editor">
-                              <label class="d-block" for="sale-price">Description <i class="mdi mdi-help-circle-outline"></i></label>
-                              <div id="standalone">
-                                <div id="toolbar">
-                                  <span class="ql-formats">
-                                    <select class="ql-font"></select>
-                                    <select class="ql-size"></select>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-bold"></button>
-                                    <button class="ql-italic"></button>
-                                    <button class="ql-underline"></button>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <select class="ql-color"></select>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-blockquote"></button>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-list" value="ordered"></button>
-                                    <button class="ql-list" value="bullet"></button>
-                                    <button class="ql-indent" value="-1"></button>
-                                    <button class="ql-indent" value="+1"></button>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-direction" value="rtl"></button>
-                                    <select class="ql-align"></select>
-                                  </span>
-                                </div>
-                              </div>
-                              <div id="editor"></div>
-
-                              <div class="custom-control custom-checkbox d-inline-block mt-2">
-                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                <label class="custom-control-label" for="customCheck2">Hide product from published site</label>
-                              </div>
-
-                            </div>
-
                           </div>
                           <div class="col-lg-4">
                             <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="customFile" placeholder="please imgae here">
-                              <span class="upload-image">Click here to <span class="text-primary">add product image.</span> </span>
+                              <input type="file" name="gambar" class="custom-file-input" id="gambar" placeholder="please imgae here">
+                              <span class="upload-image">Click here to <span class="text-primary">add profile image.</span> </span>
                             </div>
                           </div>
                         </div>
@@ -227,7 +193,68 @@
                   </form>
                 </div>
               </div>
-          </div>         
+          </div>  
+          
+          
+          <script>
+            function formatRupiah(input) {
+              let value = input.value.replace(/[^0-9]/g, '');
+              input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
 
+            document.addEventListener('DOMContentLoaded', function () {
+
+              const form = document.getElementById('userForm');
+              const methodInput = document.getElementById('formMethod');
+              const userIdInput = document.getElementById('user_id');
+
+              const product = document.getElementById('product');
+              const ket1 = document.getElementById('ket1');
+              const price = document.getElementById('price');
+              const category = document.getElementById('category');
+              const stock = document.getElementById('stock');
+              const gambar = document.getElementById('gambar');
+              const modalTitle = document.getElementById('exampleModalGridTitle');
+
+              // 👉 MODE ADD USER (klik tombol Add User)
+              document.querySelector('[data-target="#modal-stock"]').addEventListener('click', function () {
+                form.action = "{{ route('product.store') }}";
+                methodInput.value = '';
+                userIdInput.value = '';
+
+                product.value = '';
+                ket1.value = '';
+                price.value = '';
+                category.value = '';
+                stock.value = '';
+                gambar.value = '';
+
+
+                modalTitle.innerText = 'Add Product';
+              });
+
+              // 👉 MODE UPDATE USER
+              document.querySelectorAll('.btn-edit-user').forEach(btn => {
+                btn.addEventListener('click', function () {
+
+                  const id = this.dataset.id;
+
+                  form.action = `/update_product/${id}`;
+                  methodInput.value = 'PUT';
+                  userIdInput.value = id;
+
+                  product.value = this.dataset.product;
+                  ket1.value = this.dataset.ket1;
+                  price.value = this.dataset.price;
+                  category.value = this.dataset.category;
+                  stock.value = this.dataset.stock;
+                  gambar.value = this.dataset.gambar;
+
+                  modalTitle.innerText = 'Update Product';
+                });
+              });
+
+            });
+          </script>
 @endsection
 

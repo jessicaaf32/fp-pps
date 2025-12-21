@@ -49,22 +49,20 @@
                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
                           <thead>
                             <tr>
-                              <th></th>
                               <th>Poster</th>
-                              <th>Judul Webinar</th>
-                              <th>Sub Judul Webinar</th>
-                              <th>Deskripsi Webinar</th>
+                              <th>Judul</th>
+                              <th>Sub Judul</th>
+                              <th>Deskripsi</th>
                               <th>Tanggal</th>
                               <th>Jam Pelaksanaan</th>
-                              <th>Jenis Webinar</th>
-                              <th>Link Webinar</th>
+                              <th>Jenis</th>
+                              <th>Link</th>
                               <th></th>
                             </tr>
                           </thead>
                           <tbody>
                             @foreach ($webinar as $index => $webinarr)
                               <tr>
-                                <td class="py-0"></td>
                                 <td>
                                   @php
                                       $avatar = (!empty($webinarr->poster_url) && file_exists(public_path('img/webinar/'.$webinarr->poster_url)))
@@ -92,32 +90,34 @@
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                       <form id="delete-user-{{ $webinarr->id }}"
-                                            action="{{ route('user.destroy', $webinarr->id) }}"
+                                            action="{{ route('webinar.destroy', $webinarr->id) }}"
                                             method="POST"
                                             class="d-none">
                                         @csrf
                                         @method('DELETE')
                                       </form>
                                       <a class="dropdown-item" href="#" onclick="event.preventDefault();
-                                                  if(confirm('Yakin hapus user ini?')) {
+                                                  if(confirm('Yakin hapus data webinar {{ $webinarr->title }}ini?')) {
                                                     document.getElementById('delete-user-{{ $webinarr->id }}').submit();
-                                                  }">Delete User</a>
+                                                  }">Delete</a>
                                       <a href="#"
                                         class="dropdown-item btn-edit-user"
                                         data-id="{{ $webinarr->id }}"
-                                        data-username="{{ $webinarr->username }}"
-                                        data-email="{{ $webinarr->email }}"
-                                        data-phone="{{ $webinarr->phone }}"
-                                        data-address="{{ $webinarr->address }}"
+                                        data-title="{{ $webinarr->title }}"
+                                        data-subtitle="{{ $webinarr->subtitle }}"
+                                        data-description="{{ $webinarr->description }}"
+                                        data-date="{{ $webinarr->date }}"
+                                        data-time_start="{{ $webinarr->time_start }}"
+                                        data-time_end="{{ $webinarr->time_end }}"
+                                        data-webinar_type="{{ $webinarr->webinar_type }}"
+                                        data-poster_url="{{ $webinarr->poster_url }}"
+                                        data-link="{{ $webinarr->link }}"
                                         data-toggle="modal"
                                         data-target="#modal-stock">
-                                        Update User
+                                        Update
                                       </a>
                                     </div>
                                   </div>
-                                </td>
-                                <td>
-
                                 </td>
                               </tr>
                             @endforeach
@@ -131,11 +131,11 @@
               <!-- Stock Modal -->
               <div class="modal fade modal-stock" id="modal-stock" aria-labelledby="modal-stock" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                  <form id="userForm" method="POST" action="{{ route('user.store') }}">
+                  <form id="userForm" method="POST" action="{{ route('webinar.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-content">
                       <div class="modal-header align-items-center p3 p-md-5">
-                        <h2 class="modal-title" id="exampleModalGridTitle">Add User</h2>
+                        <h2 class="modal-title" id="exampleModalGridTitle">Add Webinar</h2>
                         <div>
                           <button type="button" class="btn btn-light btn-pill mr-1 mr-md-2" data-dismiss="modal"> cancel </button>
                           <button type="submit" class="btn btn-primary  btn-pill"> save </button>
@@ -145,93 +145,69 @@
                       <div class="modal-body p3 p-md-5">
                         <div class="row">
                           <div class="col-lg-8">
-                            <h3 class="h5 mb-5">User Information</h3>
+                            <h3 class="h5 mb-5">Webinar Information</h3>
                             <div class="form-row mb-4">
                               <input type="hidden" name="_method" id="formMethod">
                               <input type="hidden" name="user_id" id="user_id">
                               <div class="col">
-                                <label for="new-username">Username</label>
-                                <input type="text" class="form-control" id="new-username" name="username" placeholder="Add Username">
+                                <label for="title">Judul Webinar</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Add Judul Webinar">
                               </div>
                               <div class="col">
-                                <label for="email">Email</label>
+                                <label for="date">Tanggal Pelaksanaan</label>
                                 <div class="input-group">
-                                  <input type="email" class="form-control" id="email" name="email" placeholder="Add Email" aria-label="email"
+                                  <input type="date" class="form-control" id="date" name="date" placeholder="Add Tanggal Pelaksanaan" aria-label="date"
                                     aria-describedby="basic-addon1">
                                 </div>
                               </div>
                             </div>
                             <div class="form-row mb-4">
                               <div class="col">
-                                <label for="password">
-                                  Password <small class="text-muted">(kosongkan jika tidak diubah)</small>
-                                </label>
+                                <label for="subtitle">Sub Judul Webinar</label>
                                 <div class="input-group">
-                                  <input type="password"
-                                        class="form-control"
-                                        id="password"
-                                        name="password"
-                                        placeholder="Add Password">
+                                  <textarea class="form-control" id="subtitle" name="subtitle" placeholder="Add Sub Judul Webinar" aria-label="subtitle"
+                                    aria-describedby="basic-addon1"></textarea>
                                 </div>
                               </div>
-
                               <div class="col">
-                                <label for="phone">Phone</label>
+                                <label for="description">Deskripsi</label>
                                 <div class="input-group">
-                                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="Add Phone" aria-label="phone"
-                                    aria-describedby="basic-addon1">
-                                </div>
-                              </div>
-                            </div>
-                            <div class="form-row mb-4">
-                              <div class="col">
-                                <label for="address">Address</label>
-                                <div class="input-group">
-                                  <textarea class="form-control" id="address" name="address" placeholder="Add address" aria-label="address"
+                                  <textarea class="form-control" id="description" name="description" placeholder="Add Deskripsi" aria-label="description"
                                     aria-describedby="basic-addon1"></textarea>
                                 </div>
                               </div>
                             </div>
-                            <!-- <div class="editor">
-                              <label class="d-block" for="adress">Address <i class="mdi mdi-help-circle-outline"></i></label>
-                              <textarea name="address" id="address" hidden></textarea>
-                              <div id="standalone">
-                                <div id="toolbar">
-                                  <span class="ql-formats">
-                                    <select class="ql-font"></select>
-                                    <select class="ql-size"></select>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-bold"></button>
-                                    <button class="ql-italic"></button>
-                                    <button class="ql-underline"></button>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <select class="ql-color"></select>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-blockquote"></button>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-list" value="ordered"></button>
-                                    <button class="ql-list" value="bullet"></button>
-                                    <button class="ql-indent" value="-1"></button>
-                                    <button class="ql-indent" value="+1"></button>
-                                  </span>
-                                  <span class="ql-formats">
-                                    <button class="ql-direction" value="rtl"></button>
-                                    <select class="ql-align"></select>
-                                  </span>
+                            <div class="form-row mb-4">
+                              <div class="col">
+                                <label for="time_start">Jam Mulai</label>
+                                <input type="time" class="form-control" id="time_start" name="time_start" placeholder="Add Jam Mulai">
+                              </div>
+                              <div class="col">
+                                <label for="time_end">Jam Selesai</label>
+                                <div class="input-group">
+                                  <input type="time" class="form-control" id="time_end" name="time_end" placeholder="Add Jam Selesai" aria-label="time_end"
+                                    aria-describedby="basic-addon1">
                                 </div>
                               </div>
-                              
-                              <div id="editor"></div>
-                            </div> -->
-
+                            </div>
+                            <div class="form-row mb-4">
+                              <div class="col">
+                                <label for="webinar_type">Tipe Webinar</label>
+                                <select name="webinar_type" id="webinar_type" class="form-control">
+                                  <option value="">-- Pilih Tipe Webinar --</option>
+                                  <option value="Nasional">Nasional</option>
+                                  <option value="Internasional">Internasional</option>
+                                </select>
+                              </div>
+                              <div class="col">
+                                <label for="link">Tautan Webinar</label>
+                                <input type="text" class="form-control" id="link" name="link" placeholder="Add Tautan Webinar">
+                              </div>
+                            </div>
                           </div>
                           <div class="col-lg-4">
                             <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="customFile" placeholder="please imgae here">
+                              <input type="file" name="poster_url" class="custom-file-input" id="poster_url" placeholder="please imgae here">
                               <span class="upload-image">Click here to <span class="text-primary">add profile image.</span> </span>
                             </div>
                           </div>
@@ -251,26 +227,35 @@
             const methodInput = document.getElementById('formMethod');
             const userIdInput = document.getElementById('user_id');
 
-            const username = document.getElementById('new-username');
-            const email = document.getElementById('email');
-            const phone = document.getElementById('phone');
-            const address = document.getElementById('address');
-            const password = document.getElementById('password');
+            const title = document.getElementById('title');
+            const subtitle = document.getElementById('subtitle');
+            const description = document.getElementById('description');
+            const date = document.getElementById('date');
+            const time_start = document.getElementById('time_start');
+            const time_end = document.getElementById('time_end');
+            const webinar_type = document.getElementById('webinar_type');
+            const link = document.getElementById('link');
+            const poster_url = document.getElementById('poster_url');
             const modalTitle = document.getElementById('exampleModalGridTitle');
 
             // 👉 MODE ADD USER (klik tombol Add User)
             document.querySelector('[data-target="#modal-stock"]').addEventListener('click', function () {
-              form.action = "{{ route('user.store') }}";
+              form.action = "{{ route('webinar.store') }}";
               methodInput.value = '';
               userIdInput.value = '';
 
-              username.value = '';
-              email.value = '';
-              phone.value = '';
-              address.value = '';
-              password.value = '';
+              title.value = '';
+              subtitle.value = '';
+              description.value = '';
+              date.value = '';
+              time_start.value = '';
+              time_end.value = '';
+              webinar_type.value = '';
+              link.value = '';
+              poster_url.value = '';
 
-              modalTitle.innerText = 'Add User';
+
+              modalTitle.innerText = 'Add Webinar';
             });
 
             // 👉 MODE UPDATE USER
@@ -279,17 +264,21 @@
 
                 const id = this.dataset.id;
 
-                form.action = `/update_user/${id}`;
+                form.action = `/update_webinar/${id}`;
                 methodInput.value = 'PUT';
                 userIdInput.value = id;
 
-                username.value = this.dataset.username;
-                email.value = this.dataset.email;
-                phone.value = this.dataset.phone;
-                address.value = this.dataset.address;
+                title.value = this.dataset.title;
+                subtitle.value = this.dataset.subtitle;
+                description.value = this.dataset.description;
+                date.value = this.dataset.date;
+                time_start.value = this.dataset.time_start;
+                time_end.value = this.dataset.time_end;
+                webinar_type.value = this.dataset.webinar_type;
+                link.value = this.dataset.link;
+                poster_url.value = this.dataset.poster_url;
 
-                password.value = ''; // kosongkan password
-                modalTitle.innerText = 'Update User';
+                modalTitle.innerText = 'Update Webinar';
               });
             });
 

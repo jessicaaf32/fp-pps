@@ -23,7 +23,6 @@
                             <a class="dropdown-item" href="#">Something else here</a>
                           </div>
                         </div>
-                        <a href="#" class="btn btn-primary btn-pill" data-toggle="modal" data-target="#modal-stock">Add Diskusi</a>
                       </div>
                       <div class="card-body">
                         {{-- ALERT SUCCESS --}}
@@ -47,24 +46,22 @@
                         @endif
 
                         <table id="productsTable" class="table table-hover table-product" style="width:100%">
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th>Image</th>
+                          <thead class="text-center">
+                            <tr>                             
+                              <th>Lampiran Gambar</th>
                               <th>Penanya</th>
-                              <th>Kelas</th>
+                              <th>Jenis Kelas</th>
                               <th>Pertanyaan</th>
                               <th>Likes</th>
-                              <th>Tanggal Dibuat</th>
-                              <th>Tanggal Dirubah</th>
-                              <th></th>
+                              <th>Waktu Dibuat</th>
+                              <th>Waktu Dirubah</th>
                               <th></th>
                             </tr>
                           </thead>
-                          <tbody>
+                          <tbody class="text-center">
                             @foreach ($diskusi as $index => $diskusii)
                               <tr>
-                                <td class="py-0"></td>
+                                
                                 <td>
                                   @php
                                       $avatar = (!empty($diskusii->poster_url) && file_exists(public_path('img/webinar/'.$diskusii->poster_url)))
@@ -73,15 +70,13 @@
                                   @endphp
                                   <img src="{{ asset('img/webinar/'.$avatar) }}" alt="Profile Image">
                                 </td>
-                                <td>{{ $diskusii->user_id }}</td>
-                                <td>{{ $diskusii->kelas_id }}</td>
+                                <td>{{ $diskusii->user->username }}</td>
+                                <td>{{ $diskusii->kelas->nama }}</td>
                                 <td>{{ $diskusii->questions_detail }}</td>
                                 <td>{{ $diskusii->likes }}</td>
-                                <td>{{ $diskusii->created_at?->format('d M Y') }}</td>
-                                <td>{{ $diskusii->updated_at?->format('d M Y') }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{ $diskusii->created_at?->format('d M Y H:i') }}</td>
+                                <td>{{ $diskusii->updated_at?->format('d M Y H:i') }}</td>
+                               
                                 <td>
                                   <div class="dropdown">
                                     <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -90,32 +85,19 @@
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                       <form id="delete-user-{{ $diskusii->id }}"
-                                            action="{{ route('user.destroy', $diskusii->id) }}"
+                                            action="{{ route('diskusi.destroy', $diskusii->id) }}"
                                             method="POST"
                                             class="d-none">
                                         @csrf
                                         @method('DELETE')
                                       </form>
                                       <a class="dropdown-item" href="#" onclick="event.preventDefault();
-                                                  if(confirm('Yakin hapus user ini?')) {
+                                                  if(confirm('Yakin hapus pertanyaan ini?')) {
                                                     document.getElementById('delete-user-{{ $diskusii->id }}').submit();
-                                                  }">Delete User</a>
-                                      <a href="#"
-                                        class="dropdown-item btn-edit-user"
-                                        data-id="{{ $diskusii->id }}"
-                                        data-username="{{ $diskusii->username }}"
-                                        data-email="{{ $diskusii->email }}"
-                                        data-phone="{{ $diskusii->phone }}"
-                                        data-address="{{ $diskusii->address }}"
-                                        data-toggle="modal"
-                                        data-target="#modal-stock">
-                                        Update User
-                                      </a>
+                                                  }">Delete</a>
+                                      <a href="{{ route('answer.view', $diskusii->id) }}" class="dropdown-item btn-edit-user">Lihat Jawaban</a>
                                     </div>
                                   </div>
-                                </td>
-                                <td>
-
                                 </td>
                               </tr>
                             @endforeach

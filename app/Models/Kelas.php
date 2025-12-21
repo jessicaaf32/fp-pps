@@ -18,6 +18,13 @@ class Kelas extends Model
 
 
     protected $table = 'kelas';
+    public $timestamps = false;
+
+        // 👉 relasi ke materi
+    public function materi()
+    {
+        return $this->hasMany(Materi::class, 'id_kelas');
+    }
 
 }
  

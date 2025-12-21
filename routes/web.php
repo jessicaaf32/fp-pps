@@ -17,20 +17,6 @@ use App\Http\Controllers\QuizController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/',[LoginController::class, 'login'])->name('login')->middleware('guest');
-// Route::get('/',[LoginController::class, 'login']);
-// // Route::get('/',[ShopController::class, 'beranda'])->name('beranda');
-
-// Route::post('/loginaksi',[LoginController::class, 'loginaksi']);
-
-
-
-
-// Route::get('/masuk',[ShopController::class, 'masuk']);
-// Route::get('/daftar',[LoginController::class, 'daftar']);
-// Route::post('/register',[LoginController::class, 'register']);
-// Route::get('/forgot_password',[LoginController::class, 'forgot_password']);
-// Route::post('/aksi_forgot',[LoginController::class, 'aksi_forgot']);
 
 // LOGIN
 Route::get('/', [LoginController::class, 'login'])->name('login');
@@ -47,6 +33,7 @@ Route::post('/forgot_password', [LoginController::class, 'aksi_forgot'])->name('
 // LOGOUT
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+//BERANDA ROLE USER
 Route::get('/quiz', [QuizController::class, 'index'])->middleware('auth')->name('quiz');
 Route::get('/quiz/{slug}/question/{index}', [QuizController::class, 'question'])->middleware('auth')->name('questions');
 Route::post('/quiz/{slug}/question/{index}', [QuizController::class, 'answer'])->middleware('auth')->name('answers');
@@ -84,8 +71,7 @@ Route::get('/account/security', function () {
     return view('security');
 })->middleware('auth');
 
-
-//ADMIN
+//ROLE ADMIN
 Route::get('/dashboard_admin', [AdminController::class, 'dashboard']);
 Route::get('/users_admin', [AdminController::class, 'user']);
 Route::delete('/user/{id}', [AdminController::class,'destroy_user'])->name('user.destroy');
@@ -94,41 +80,40 @@ Route::put('/update_user/{id}', [AdminController::class, 'update'])->name('user.
 
 //KELAS
 Route::get('/kelas_admin', [AdminController::class, 'kelas']);
-Route::get('/materi_admin', [AdminController::class, 'materi'])->name('materi.view');
+Route::post('/add_kelas', [AdminController::class, 'store_class'])->name('class.store');
+Route::delete('/kelas/{id}', [AdminController::class,'destroy_class'])->name('kelas.destroy');
+Route::put('/update_kelas/{id}', [AdminController::class, 'update_class'])->name('kelas.update');
+
+Route::get('/materi_admin/{id}', [AdminController::class, 'materi'])->name('materi.view');
+Route::post('/add_materi', [AdminController::class, 'store_materi'])->name('materi.store');
+Route::delete('/materi/{id}', [AdminController::class,'destroy_materi'])->name('materi.destroy');
+Route::put('/update_materi/{id}', [AdminController::class, 'update_materi'])->name('materi.update');
+
+//KUIS
+Route::get('/kuis_admin', [AdminController::class, 'kuis']);
+Route::delete('/kuis/{id}', [AdminController::class,'destroy_kuis'])->name('kuis.destroy');
 
 //WEBINAR
 Route::get('/webinar_admin', [AdminController::class, 'webinar']);
+Route::post('/add_webinar', [AdminController::class, 'store_webinar'])->name('webinar.store');
+Route::delete('/webinar/{id}', [AdminController::class,'destroy_webinar'])->name('webinar.destroy');
+Route::put('/update_webinar/{id}', [AdminController::class, 'update_webinar'])->name('webinar.update');
 
 //DISKUSI
 Route::get('/diskusi_admin', [AdminController::class, 'diskusi']);
+Route::delete('/diskusi/{id}', [AdminController::class,'destroy_diskusi'])->name('diskusi.destroy');
+
+Route::get('/answer_admin/{id}', [AdminController::class, 'answer'])->name('answer.view');
+Route::delete('/answer/{id}', [AdminController::class,'destroy_answer'])->name('answer.destroy');
 
 //MARKETPLACE
 Route::get('/marketplace_admin', [AdminController::class, 'marketplace']);
-// Route::prefix('admin')->middleware('auth')->group(function () {
+Route::post('/add_product', [AdminController::class, 'store_product'])->name('product.store');
+Route::delete('/product/{id}', [AdminController::class,'destroy_product'])->name('product.destroy');
+Route::put('/update_product/{id}', [AdminController::class, 'update_product'])->name('product.update');
 
-//     Route::get('/admin', function () {
-//         return 'ADMIN DASHBOARD OK';
-//     })->name('admin.dashboard');
-
-//     // USERS
-//     Route::get('/users', [AdminController::class,'user'])->name('admin.users');
-//     Route::post('/users', [AdminController::class,'aksi_user']);
-//     Route::delete('/users/{id}', [AdminController::class,'destroy_user']);
-
-//     // PRODUCTS
-//     Route::get('/products', [AdminController::class,'product'])->name('admin.products');
-//     Route::post('/products', [AdminController::class,'aksi_product']);
-//     Route::get('/products/{product}/edit', [AdminController::class,'product_edit']);
-//     Route::patch('/products/{id}', [AdminController::class,'action_product']);
-//     Route::delete('/products/{id}', [AdminController::class,'destroy']);
-
-//     // QUESTIONS
-//     Route::get('/questions', [AdminController::class,'question'])->name('admin.questions');
-//     Route::post('/questions', [AdminController::class,'aksi_question']);
-//     Route::delete('/questions/{id}', [AdminController::class,'destroy_question']);
-
-//     // ORDERS
-//     Route::get('/orders', [AdminController::class,'order'])->name('admin.orders');
-//     Route::delete('/orders/{id}', [AdminController::class,'destroy_order']);
-
-// });
+Route::get('/order_admin', [AdminController::class, 'order']);
+Route::delete('/order/{id}', [AdminController::class,'destroy_order'])->name('order.destroy');
+Route::put('/update_order/{id}', [AdminController::class, 'update_order'])->name('order.update');
+Route::get('/order_item/{id}', [AdminController::class, 'order_item'])->name('order.view');
+Route::delete('/order_item/{id}', [AdminController::class,'destroy_order_item'])->name('order_item.destroy');

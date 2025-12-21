@@ -101,15 +101,15 @@
                     </a>
                   </li>
 
-                  <li class="{{ request()->is(['kelas_admin', 'materi_admin']) ? 'active' : '' }}">
+                  <li class="{{ request()->is('kelas_admin') || request()->is('materi_admin*') ? 'active' : '' }}">
                     <a class="sidenav-item-link @yield('Kelas')" href="/kelas_admin">
                       <i class="mdi mdi-school"></i>
                       <span class="nav-text">Kelas</span>
                     </a>
                   </li>
 
-                  <li>
-                    <a class="sidenav-item-link @yield('Quiz')" href="/quiz_admin">
+                  <li class="{{ request()->is(['kuis_admin']) ? 'active' : '' }}">
+                    <a class="sidenav-item-link @yield('Kuis')" href="/kuis_admin">
                       <i class="mdi mdi-help-circle"></i>
                       <span class="nav-text">Quiz</span>
                     </a>
@@ -122,19 +122,80 @@
                     </a>
                   </li>
 
-                  <li class="{{ request()->is(['diskusi_admin']) ? 'active' : '' }}">
+                  <li class="{{ request()->is('diskusi_admin') || request()->is('answer_admin*') ? 'active' : '' }}">
                     <a class="sidenav-item-link @yield('Diskusi')" href="/diskusi_admin">
                       <i class="mdi mdi-forum-outline"></i>
                       <span class="nav-text">Diskusi</span>
                     </a>
                   </li>
-
+                  <!-- 
                   <li class="{{ request()->is(['marketplace_admin']) ? 'active' : '' }}">
                     <a class="sidenav-item-link @yield('Marketplace')" href="/marketplace_admin">
                       <i class="mdi mdi-store"></i>
                       <span class="nav-text">Marketplace</span>
                     </a>
+                  </li> -->
+
+                  <li class="has-sub {{ request()->is('marketplace_admin*', 'order_admin*') ? 'active' : '' }}">                   
+                    <a class="sidenav-item-link"
+                      href="javascript:void(0)"
+                      data-toggle="collapse"
+                      data-target="#marketplace"
+                      aria-expanded="{{ request()->is('marketplace_admin*', 'order_admin*') ? 'true' : 'false' }}"
+                      aria-controls="marketplace">
+                      
+                      <i class="mdi mdi-store"></i>
+                      <span class="nav-text">Marketplace</span>
+                      <b class="caret"></b>
+                    </a>
+
+                    <ul class="collapse
+                        {{ request()->is('marketplace_admin*', 'order_admin*') ? 'show' : '' }}"
+                        id="marketplace"
+                        data-parent="#sidebar-menu">
+
+                      <div class="sub-menu">
+
+                        {{-- Data Produk --}}
+                        <li class="{{ request()->is('marketplace_admin*') ? 'active' : '' }}">
+                          <a class="sidenav-item-link" href="{{ url('/marketplace_admin') }}">
+                            <span class="nav-text">Data Produk</span>
+                          </a>
+                        </li>
+
+                        {{-- Order --}}
+                        <li class="{{ request()->is('order_admin*') ? 'active' : '' }}">
+                          <a class="sidenav-item-link" href="{{ url('/order_admin') }}">
+                            <span class="nav-text">Data Order</span>
+                          </a>
+                        </li>
+
+                      </div>
+                    </ul>
                   </li>
+
+                  <!-- <li class="has-sub" >
+                    <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#email"
+                      aria-expanded="false" aria-controls="email">
+                      <i class="mdi mdi-email"></i>
+                      <span class="nav-text">email</span> <b class="caret"></b>
+                    </a>
+                    <ul class="collapse" id="email" data-parent="#sidebar-menu">
+                      <div class="sub-menu">
+                        <li>
+                          <a class="sidenav-item-link" href="email-inbox.html">
+                            <span class="nav-text">Email Inbox</span>
+                            
+                          </a>
+                        </li>
+                        <li>
+                          <a class="sidenav-item-link" href="email-details.html">
+                            <span class="nav-text">Email Details</span>  
+                          </a>
+                        </li>
+                      </div>
+                    </ul>
+                  </li> -->
 
               </ul>
             </div>

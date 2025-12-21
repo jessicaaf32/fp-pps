@@ -19,9 +19,10 @@ class Webinar extends Model
         'time_end',
         'webinar_type',
         'poster_url',
-        'link,'
+        'link',
     ];
 
+    public $timestamps = false;
 
     protected $table = 'webinar';
 

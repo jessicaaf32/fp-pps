@@ -1,4 +1,6 @@
 @extends('index')
+@section('title','Kuis')
+@section('Kuis','active')
 
 @section('content')
 <div class="container py-5" style="max-width: 700px">

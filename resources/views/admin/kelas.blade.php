@@ -81,33 +81,29 @@
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                       <form id="delete-user-{{ $class->id }}"
-                                            action="{{ route('user.destroy', $class->id) }}"
+                                            action="{{ route('kelas.destroy', $class->id) }}"
                                             method="POST"
                                             class="d-none">
                                         @csrf
                                         @method('DELETE')
                                       </form>
                                       <a class="dropdown-item" href="#" onclick="event.preventDefault();
-                                                  if(confirm('Yakin hapus user ini?')) {
+                                                  if(confirm('Yakin hapus kelas ini?')) {
                                                     document.getElementById('delete-user-{{ $class->id }}').submit();
-                                                  }">Delete User</a>
+                                                  }">Delete Kelas</a>
                                       <a href="#"
                                         class="dropdown-item btn-edit-user"
                                         data-id="{{ $class->id }}"
-                                        data-username="{{ $class->username }}"
-                                        data-email="{{ $class->email }}"
-                                        data-phone="{{ $class->phone }}"
-                                        data-address="{{ $class->address }}"
+                                        data-nama="{{ $class->nama }}"
+                                        data-keterangan="{{ $class->keterangan }}"
+                                        data-gambar="{{ $class->gambar }}"
                                         data-toggle="modal"
                                         data-target="#modal-stock">
-                                        Update User
+                                        Update Kelas
                                       </a>
                                       <a href="{{ route('materi.view', $class->id) }}" class="dropdown-item btn-edit-user">Lihat Materi</a>
                                     </div>
                                   </div>
-                                </td>
-                                <td>
-
                                 </td>
                               </tr>
                             @endforeach
@@ -121,11 +117,11 @@
               <!-- Stock Modal -->
               <div class="modal fade modal-stock" id="modal-stock" aria-labelledby="modal-stock" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                  <form id="userForm" method="POST" action="{{ route('user.store') }}">
+                  <form id="userForm" method="POST" action="{{ route('class.store') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-content">
                       <div class="modal-header align-items-center p3 p-md-5">
-                        <h2 class="modal-title" id="exampleModalGridTitle">Add User</h2>
+                        <h2 class="modal-title" id="exampleModalGridTitle">Add Class</h2>
                         <div>
                           <button type="button" class="btn btn-light btn-pill mr-1 mr-md-2" data-dismiss="modal"> cancel </button>
                           <button type="submit" class="btn btn-primary  btn-pill"> save </button>
@@ -135,49 +131,20 @@
                       <div class="modal-body p3 p-md-5">
                         <div class="row">
                           <div class="col-lg-8">
-                            <h3 class="h5 mb-5">User Information</h3>
+                            <h3 class="h5 mb-5">Class Information</h3>
                             <div class="form-row mb-4">
                               <input type="hidden" name="_method" id="formMethod">
                               <input type="hidden" name="user_id" id="user_id">
                               <div class="col">
-                                <label for="new-username">Username</label>
-                                <input type="text" class="form-control" id="new-username" name="username" placeholder="Add Username">
-                              </div>
-                              <div class="col">
-                                <label for="email">Email</label>
-                                <div class="input-group">
-                                  <input type="email" class="form-control" id="email" name="email" placeholder="Add Email" aria-label="email"
-                                    aria-describedby="basic-addon1">
-                                </div>
+                                <label for="new-nama">Nama Kelas</label>
+                                <input type="text" class="form-control" id="new-nama" name="nama" placeholder="Add Kelas">
                               </div>
                             </div>
                             <div class="form-row mb-4">
                               <div class="col">
-                                <label for="password">
-                                  Password <small class="text-muted">(kosongkan jika tidak diubah)</small>
-                                </label>
+                                <label for="keterangan">Deskripsi</label>
                                 <div class="input-group">
-                                  <input type="password"
-                                        class="form-control"
-                                        id="password"
-                                        name="password"
-                                        placeholder="Add Password">
-                                </div>
-                              </div>
-
-                              <div class="col">
-                                <label for="phone">Phone</label>
-                                <div class="input-group">
-                                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="Add Phone" aria-label="phone"
-                                    aria-describedby="basic-addon1">
-                                </div>
-                              </div>
-                            </div>
-                            <div class="form-row mb-4">
-                              <div class="col">
-                                <label for="address">Address</label>
-                                <div class="input-group">
-                                  <textarea class="form-control" id="address" name="address" placeholder="Add address" aria-label="address"
+                                  <textarea class="form-control" id="keterangan" name="keterangan" placeholder="Add Deskripsi Kelas" aria-label="keterangan"
                                     aria-describedby="basic-addon1"></textarea>
                                 </div>
                               </div>
@@ -186,7 +153,7 @@
                           </div>
                           <div class="col-lg-4">
                             <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="customFile" placeholder="please imgae here">
+                              <input type="file" name="gambar" class="custom-file-input" id="customFile" placeholder="please imgae here">
                               <span class="upload-image">Click here to <span class="text-primary">add profile image.</span> </span>
                             </div>
                           </div>
@@ -206,26 +173,22 @@
             const methodInput = document.getElementById('formMethod');
             const userIdInput = document.getElementById('user_id');
 
-            const username = document.getElementById('new-username');
-            const email = document.getElementById('email');
-            const phone = document.getElementById('phone');
-            const address = document.getElementById('address');
-            const password = document.getElementById('password');
+            const nama = document.getElementById('new-nama');
+            const keterangan = document.getElementById('keterangan');
+            const gambar = document.getElementById('gambar');
             const modalTitle = document.getElementById('exampleModalGridTitle');
 
             // 👉 MODE ADD USER (klik tombol Add User)
             document.querySelector('[data-target="#modal-stock"]').addEventListener('click', function () {
-              form.action = "{{ route('user.store') }}";
+              form.action = "{{ route('class.store') }}";
               methodInput.value = '';
               userIdInput.value = '';
 
-              username.value = '';
-              email.value = '';
-              phone.value = '';
-              address.value = '';
-              password.value = '';
+              nama.value = '';
+              keterangan.value = '';
+              gambar.value = '';
 
-              modalTitle.innerText = 'Add User';
+              modalTitle.innerText = 'Add Class';
             });
 
             // 👉 MODE UPDATE USER
@@ -234,17 +197,15 @@
 
                 const id = this.dataset.id;
 
-                form.action = `/update_user/${id}`;
+                form.action = `/update_kelas/${id}`;
                 methodInput.value = 'PUT';
                 userIdInput.value = id;
 
-                username.value = this.dataset.username;
-                email.value = this.dataset.email;
-                phone.value = this.dataset.phone;
-                address.value = this.dataset.address;
+                nama.value = this.dataset.nama;
+                keterangan.value = this.dataset.keterangan;
+                gambar.value = this.dataset.gambar;
 
-                password.value = ''; // kosongkan password
-                modalTitle.innerText = 'Update User';
+                modalTitle.innerText = 'Update Class';
               });
             });
 

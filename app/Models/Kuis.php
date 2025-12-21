@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Kuis extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'id',
-        'product',
-        'ket1',
-        'gambar',
-        'price',
-        'category',
-        'stock',
+        'quiz_slug',
+        'user_name',
+        'score',
+        'time_spent',
+        'created_at',
+        'updated_at',
     ];
 
 
-    protected $table = 'products';
+    protected $table = 'highscores';
 
 }
  

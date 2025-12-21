@@ -19,6 +19,11 @@ class Materi extends Model
 
 
     protected $table = 'materi';
-
+    public $timestamps = false;
+        // 👉 relasi ke kelas
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'id_kelas');
+    }
 }
  
